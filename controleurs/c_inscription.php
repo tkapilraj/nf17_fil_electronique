@@ -1,10 +1,13 @@
 <?php
 //On inclut le modèle
+include(dirname(__FILE__).'/../modeles/m_session.php');
 include(dirname(__FILE__).'/../modeles/m_compte.php');
-/* TODO : déterminer quoi faire si déjà connecter
- * - Retour page
- * - Accepter l'inscription d'autre utilisateurs ?
- * ? */
+
+// si on est déjà connecté
+if (isConnect($_SESSION)){
+	header("Location:index.php");
+}
+
 /* on vérifie si on arrive d'un formulaire post */
 $bInscription=false;
 if ( ! empty( $_POST["action"])){
