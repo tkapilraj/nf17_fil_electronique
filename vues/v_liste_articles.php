@@ -7,9 +7,9 @@
 		} else {
 			echo '<div class="col_w270 float_r">';
 		}
-		echo "<h2>".$result['titre']."</h2>";
+		echo "<h3>".$result['titre']."</h3>";
 		echo "<p>".$result['texte']."</p>";
-		echo '<div class="button float_r"><a href="#">More...</a></div></div>';
+		echo '<div class="button float_r"><a href="index.php?action=articles&param='.$result['titre'].'">Plus</a></div></div>';
 		$i++;
 	}			
 ?>
