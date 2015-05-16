@@ -5,7 +5,7 @@ if (! empty($erreur)){
 }
 ?>
 <form method="post" action="index.php">
-	<input type="hidden" name="action" value="connecter">
+	<input type="hidden" name="action" value="connection">
 	<table>
 		<tr>
 			<td>Pseudo :</td>

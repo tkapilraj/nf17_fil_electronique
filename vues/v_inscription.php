@@ -4,8 +4,8 @@ if (! empty($erreur)){
 	print "<h3 class=\"erreur\">$erreur</h3>";
 }
 ?>
-<form method="get" action="index.php">
-	<input type="hidden" name="action" value="inscrire">
+<form method="post" action="index.php">
+	<input type="hidden" name="action" value="inscription">
 	<table>
 		<tr>
 			<td>Pseudo :</td>
