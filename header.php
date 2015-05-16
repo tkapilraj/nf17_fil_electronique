@@ -20,8 +20,19 @@
 						<li><a href="index.php">Home</a></li>
 						<li><a href="index.php?action=rubriques">Rubriques</a></li>
 						<li><a href="index.php?action=recherche">Recherche</a></li>
+						<li><a href="#">Recherche</a></li>
+						<?php
+						if (isConnect($_SESSION)){
+						?>
+						<li><a href="index.php?action=deconnexion">Déconnexion</a></li>
+						<?php
+						}else{
+						?>
 						<li><a href="index.php?action=connexion">Connexion</a></li>
 						<li><a href="index.php?action=inscription">Inscription</a></li>
+						<?php
+						}
+						?>
 					</ul>
 				</div> <!-- end of menu -->
 			</div>

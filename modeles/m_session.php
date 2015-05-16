@@ -12,26 +12,7 @@
 		$ret = pg_num_rows($query) != 0;
 		return $ret;
 	}
-
 	//GESTION SESSION
-	/* fonction pour s'avoir si un utilisateur est connecter
-	 * true si connecté.
-	 * false si non connecté.
-	 */
-	function isConnect($session)
-	{
-		$ret = ! empty($session["pseudo"]);
-		return $ret;
-	}
-	/* fonction pour déconnecter un utilisateur
-	 * et le renvoyer à l'accueil.
-	 */
-	function deconnect()
-	{
-		session_destroy();
-		header("Location:index.php");
-		return;
-	}
 	/* fonction pour connaître les status d'un utilisateur
 	 * si le résultat est vide, il y à un problème:
 	 * on déconnecte donc l'utilisateur

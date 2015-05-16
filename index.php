@@ -1,8 +1,11 @@
-<?php require('header.html'); ?>
+<?php
+include('modeles/session.php');
+session_start();
+require('header.php');
+?>
 <div id="main">
 	<div id="content">
 		<?php
-			session_start();
 			include('modeles/connect.php');
 			$connexion = connect();
 			//On inclut le contrôleur s'il spécifié et s'il existe
