@@ -3,6 +3,9 @@
 if (! empty($erreur)){
 	print "<h3 class=\"erreur\">$erreur</h3>";
 }
+if (! empty($message)){
+	print "<h3 class=\"message\">$message</h3>";
+}
 ?>
 <form method="post" action="index.php">
 	<input type="hidden" name="action" value="inscription">
