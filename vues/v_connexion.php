@@ -11,7 +11,7 @@ if (! empty($erreur)){
 			<td>Pseudo :</td>
 			<td><input type="text" name="pseudo"
 			maxlength="32" required
-			placeholder="Entrez un pseudo"
+			placeholder="Entrez votre pseudo"
 			></td>
 		</tr>
 		<tr>

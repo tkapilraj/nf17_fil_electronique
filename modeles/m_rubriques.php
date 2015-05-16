@@ -17,4 +17,6 @@
 		$query = pg_query($connexion, $requete);
 		return $query;
 	}
+
+
 ?>

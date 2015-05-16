@@ -1,2 +1,4 @@
 #fichier connect.php
 modeles/connect.php
+sql/
+.idea/
