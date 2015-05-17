@@ -19,12 +19,17 @@ if ( ! empty( $_POST["action"])){
 	assert('! empty($_POST["prenom"]);');
 	assert('! empty($_POST["statuts"]);');
 	assert('! empty($_POST["date_naissance"]);');
+	assert('! empty($_POST["statuts"]);');
+
 	// ils doivent aussi vérifier certaines conditions :
 	assert('strlen($_POST["pseudo"])<=32;');
 	assert('strlen($_POST["nom"])<=64;');
 	assert('strlen($_POST["prenom"])<=64;');
 	assert('preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/",$_POST["date_naissance"])');
-
+	$allStatuts=getAllStatuts($connexion);
+	foreach ($_POST["statuts"] as $s){
+		assert('in_array($s,$allStatuts); // le statut n\'est pas valide.');
+	}
 
 }
 
