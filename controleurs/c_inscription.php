@@ -12,6 +12,20 @@ if (isConnect($_SESSION)){
 $bInscription=false;
 if ( ! empty( $_POST["action"])){
 	$bInscription=true; // on est en phase inscription
+
+	//normalement les champs insérés ne peuvent pas être vide
+	assert('! empty($_POST["pseudo"]);');
+	assert('! empty($_POST["nom"]);');
+	assert('! empty($_POST["prenom"]);');
+	assert('! empty($_POST["statuts"]);');
+	assert('! empty($_POST["date_naissance"]);');
+	// ils doivent aussi vérifier certaines conditions :
+	assert('strlen($_POST["pseudo"])<=32;');
+	assert('strlen($_POST["nom"])<=64;');
+	assert('strlen($_POST["prenom"])<=64;');
+	assert('preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/",$_POST["date_naissance"])');
+
+
 }
 
 //test validité de la date

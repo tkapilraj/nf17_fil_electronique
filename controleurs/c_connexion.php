@@ -10,6 +10,13 @@ if (isConnect($_SESSION)){
 $bAuth=false;
 if ( ! empty( $_POST["action"])){
 	$bAuth=true; // on est en phase authentification
+
+	//normalement les champs insérés ne peuvent pas être vide
+	assert('! empty($_POST["pseudo"]);');
+	assert('! empty($_POST["date_naissance"]);');
+	// ils doivent aussi vérifier certaines conditions :
+	assert('strlen($_POST["pseudo"])<=32;');
+	assert('preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/",$_POST["date_naissance"])');
 }
 //test validité de la date
 if ($bAuth)
