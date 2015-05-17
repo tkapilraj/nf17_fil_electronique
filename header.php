@@ -20,7 +20,6 @@
 						<li><a href="index.php">Home</a></li>
 						<li><a href="index.php?action=rubriques">Rubriques</a></li>
 						<li><a href="index.php?action=recherche">Recherche</a></li>
-						<li><a href="#">Recherche</a></li>
 						<?php
 						if (isConnect($_SESSION)){
 						?>
