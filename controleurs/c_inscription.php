@@ -1,7 +1,7 @@
 <?php
 //On inclut le modèle
-include(dirname(__FILE__).'/../modeles/m_session.php');
-include(dirname(__FILE__).'/../modeles/m_compte.php');
+include_once(dirname(__FILE__).'/../modeles/m_session.php');
+include_once(dirname(__FILE__).'/../modeles/m_compte.php');
 
 // si on est déjà connecté
 if (isConnect($_SESSION)){

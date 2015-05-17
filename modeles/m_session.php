@@ -13,15 +13,24 @@
 		return $ret;
 	}
 	//GESTION SESSION
-	/* fonction pour connaître les status d'un utilisateur
-	 * si le résultat est vide, il y à un problème:
-	 * on déconnecte donc l'utilisateur
-	 * TODO : à remplacer pour partie une fonction pg/SQL
-	 * */
-	function getStatuts($connexion,$pseudo)
+	/* Retourne la liste des statuts possible
+	 * TODO : à remplacer par partie par une table spécifique SQL
+	 * ou une requête sur les "schéma" des tables ?
+	 */
+	function getAllStatuts($connexion)
 	{
 		$allStatuts = array ("lecteur","moderateur",
 			"redacteur","editeur","administrateur");
+		return $allStatuts;
+	}
+	/* fonction pour connaître les status d'un utilisateur
+	 * si le résultat est vide, il y à un problème:
+	 * on déconnecte donc l'utilisateur
+	 * TODO : à remplacer pour partie une fonction pg/SQL ?
+	 * */
+	function getStatuts($connexion,$pseudo)
+	{
+		$allStatuts = getAllStatuts($connexion);
 		$rStatuts = array();
 		foreach ($allStatuts as $s)
 		{

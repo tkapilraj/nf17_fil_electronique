@@ -1,4 +1,5 @@
 <?php
+	include_once(dirname(__FILE__).'/../modeles/m_session.php');
 	//INFORMATION
 	/* fonction permettant de savoir si l'utilisateur
 	 * à un compte. retourne un booleen.
@@ -36,8 +37,7 @@
 	 */
 	function addStatut($connexion,$pseudo,$statut)
 	{
-		$allStatuts = array ("lecteur","moderateur",
-		"redacteur","editeur","administrateur");
+		$allStatuts = getAllStatuts($connexion);
 		if ( ! in_array($statut,$allStatuts))
 		{
 			return false;
