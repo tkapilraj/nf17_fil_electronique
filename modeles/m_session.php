@@ -40,11 +40,17 @@
 				$rStatuts[]=$s;
 			}
 		}
+		$rStatutsEstVide = TRUE;
+		foreach ($rStatuts as $s){
+			// la fonction empty ne fonctionne pas donc 
+			// on utilise un for artificiel
+			$rStatutsEstVide = FALSE;
+			break;
+		}
 		// si pas de statut -> on déconnecte.
-		if (empty($rStatus))
-		{
+		if ($rStatutsEstVide){
 			deconnect();
-		};
+		}
 		return $rStatuts;
 	}
 ?>
