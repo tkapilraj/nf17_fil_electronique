@@ -1,4 +1,6 @@
 <?php
+include('modeles/conf.php');
+assert_options(ASSERT_ACTIVE, $assert_active);
 include('modeles/session.php');
 session_start();
 require('header.php');
