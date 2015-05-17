@@ -5,8 +5,7 @@
         if (isConnect($_SESSION)){
         ?>
         Connecté en tant que :</br> <strong><?php print $_SESSION["pseudo"]?></strong>
-        (<a href="index.php?action=deconnexion">déconnexion</a>)
-            
+        (<a href="index.php?action=deconnexion">déconnexion</a>)            
                 <?php 
                     if (isLecteur($_SESSION)) {
                 ?>
@@ -16,10 +15,12 @@
                     }
                     if (isRedacteur($_SESSION)) {
                 ?>
-                    <li><a href="#">Créer des articles</a></li>
-                    <li><a href="#">Modifier mes articles</a></li>
-                    <li><a href="#">Consulter l'état de mes articles</a></li>
+                    <li><a href="#">Créer un article</a></li>
+                    <li><a href="#">Restaurer un article supprimé</a></li>
+                    <li><a href="#">Supprimer un article</a></li>
                     <li><a href="#">Soumettre un article</a></li>
+                    <li><a href="#">Consulter un de mes articles</a></li>
+                    <li><a href="#">Modifier un article</a></li>
                 <?php 
                     }
                     if (isEditeur($_SESSION)){
