@@ -34,7 +34,7 @@
 		$rStatuts = array();
 		foreach ($allStatuts as $s)
 		{
-			$requete = "SELECT FROM $s WHERE pseudo='$pseudo'";
+			$requete = "SELECT * FROM $s WHERE pseudo='$pseudo'";
 			$query = pg_query($connexion, $requete);
 			if (pg_num_rows($query) != 0){
 				$rStatuts[]=$s;

@@ -39,6 +39,12 @@ if ($bAuth)
 	session_destroy();
 	session_start();
 	$_SESSION['pseudo'] = $_POST["pseudo"];
+	$tableauDeStatuts = getStatuts($connexion,$_POST["pseudo"]);
+	$_SESSION['lecteur'] = hasStatut($tableauDeStatuts,"lecteur");
+	$_SESSION['moderateur'] = hasStatut($tableauDeStatuts,"moderateur");
+	$_SESSION['redacteur'] = hasStatut($tableauDeStatuts,"redacteur");
+	$_SESSION['editeur'] = hasStatut($tableauDeStatuts,"editeur");
+	$_SESSION['administrateur'] = hasStatut($tableauDeStatuts,"administrateur");
 }
 if (isConnect($_SESSION)){
 	//On inclut la vue
