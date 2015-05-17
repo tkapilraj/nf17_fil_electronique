@@ -53,4 +53,18 @@
 		}
 		return $rStatuts;
 	}
+	// VERIFICATION STATUT
+	/* on envoie en paramètres un tableau de string (correspondant aux 
+	/* différents statuts de l'individu) et le statut cherché
+	/* retourne vrai si l'individu a le statutCherche
+	/* retourne faux sinon
+	 * */
+	function hasStatut($tableauDeStatuts,$statutCherche){
+		foreach ($tableauDeStatuts as $statut){
+			if(strcmp ($statut, $statutCherche) == 0){
+				return true;
+			}
+		}
+		return false;
+	}
 ?>
