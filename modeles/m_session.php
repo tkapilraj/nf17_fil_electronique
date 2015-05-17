@@ -40,21 +40,14 @@
 				$rStatuts[]=$s;
 			}
 		}
-		$rStatutsEstVide = TRUE;
-		foreach ($rStatuts as $s){
-			// la fonction empty ne fonctionne pas donc 
-			// on utilise un for artificiel
-			$rStatutsEstVide = FALSE;
-			break;
-		}
 		// si pas de statut -> on déconnecte.
-		if ($rStatutsEstVide){
+		if (empty($rStatuts)){
 			deconnect();
 		}
 		return $rStatuts;
 	}
 	// VERIFICATION STATUT
-	/* on envoie en paramètres un tableau de string (correspondant aux 
+	/* on envoie en paramètres un tableau de string (correspondant aux
 	/* différents statuts de l'individu) et le statut cherché
 	/* retourne vrai si l'individu a le statutCherche
 	/* retourne faux sinon
