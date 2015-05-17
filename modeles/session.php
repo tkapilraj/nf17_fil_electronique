@@ -17,4 +17,19 @@
 		header("Location:index.php");
 		return;
 	}
+	function isLecteur($session){		
+		return $session["lecteur"];
+	}
+	function isRedacteur($session){
+		return $session["redacteur"];
+	}
+	function isEditeur($session){
+		return $session["editeur"];
+	}
+	function isModerateur($session){
+		return $session["moderateur"];
+	}
+	function isAdministrateur($session){
+		return $session["administrateur"];
+	}
 ?>
