@@ -15,7 +15,7 @@
                     }
                     if (isRedacteur($_SESSION)) {
                 ?>
-                    <li><a href="#">Créer un article</a></li>
+                    <li><a href="index.php?action=creer_article">Créer un article</a></li>
                     <li><a href="#">Restaurer un article supprimé</a></li>
                     <li><a href="#">Supprimer un article</a></li>
                     <li><a href="#">Soumettre un article</a></li>
