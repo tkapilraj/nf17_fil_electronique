@@ -6,6 +6,10 @@
 	 */
 	function auth($connexion,$pseudo,$date_naissance)
 	{
+		// on protège les entrée
+		$pseudo =pg_escape_string($pseudo);
+		$date_naissance=pg_escape_string($date_naissance);
+		// requête
 		$requete = "SELECT * FROM comptes
 		WHERE pseudo='$pseudo' and date_naissance='$date_naissance';";
 		$query = pg_query($connexion, $requete);
@@ -30,11 +34,14 @@
 	 * */
 	function getStatuts($connexion,$pseudo)
 	{
+		// on protège les entrée
+		$pseudo =pg_escape_string($pseudo);
+		//requête
 		$allStatuts = getAllStatuts($connexion);
 		$rStatuts = array();
 		foreach ($allStatuts as $s)
 		{
-			$requete = "SELECT * FROM $s WHERE pseudo='$pseudo'";
+			$requete = "SELECT * FROM \"$s\" WHERE pseudo='$pseudo'";
 			$query = pg_query($connexion, $requete);
 			if (pg_num_rows($query) != 0){
 				$rStatuts[]=$s;
