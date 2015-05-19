@@ -5,14 +5,20 @@
 		$query = pg_query($connexion, $requete);
 		return $query;
 	}
-	
+
 	function getSousRubriques($connexion, $mere) {
+		// on protège les entrées
+		$mere = pg_escape_string($mere);
+		// requête
 		$requete = "SELECT nom FROM rubrique WHERE rubrique_mere='$mere'";
 		$query = pg_query($connexion, $requete);
 		return $query;
 	}
-	
+
 	function getArticlesAssocies($connexion, $mere) {
+		// on protège les entrées
+		$mere = pg_escape_string($mere);
+		// requête
 		$requete = "SELECT titre, (array_agg(contenu_txt))[1] as texte FROM (SELECT a.article as titre  FROM association a, assoc_appartient_rub r  WHERE rubrique='$mere' AND a._date=r._date) as req LEFT JOIN text on titre=titreArticle GROUP BY titre";
 		$query = pg_query($connexion, $requete);
 		return $query;
