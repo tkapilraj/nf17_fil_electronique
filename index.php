@@ -1,6 +1,9 @@
 <?php
+// Configuration //
 include('modeles/conf.php');
 assert_options(ASSERT_ACTIVE, $assert_active);
+date_default_timezone_set($timezone);
+// index
 include('modeles/session.php');
 session_start();
 require('header.php');

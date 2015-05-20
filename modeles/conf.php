@@ -6,4 +6,5 @@
 	* permet de tester les condition assert, utile pour le débogage.
 	*/
 	$assert_active=true;
+	$timezone="Europe/Paris";
 ?>
