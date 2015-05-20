@@ -16,11 +16,11 @@
                     if (isRedacteur($_SESSION)) {
                 ?>
                     <li><a href="index.php?action=creer_article">Créer un article</a></li>
-                    <li><a href="#">Restaurer un article supprimé</a></li>
-                    <li><a href="#">Supprimer un article</a></li>
-                    <li><a href="#">Soumettre un article</a></li>
+                    <li><a href="index.php?action=choisir_article&fonction=restaurer">Restaurer un article supprimé</a></li>
+                    <li><a href="index.php?action=choisir_article&fonction=supprimer">Supprimer un article</a></li>
+                    <li><a href="index.php?action=choisir_article&fonction=soumettre">Soumettre un article</a></li>
                     <li><a href="#">Consulter un de mes articles</a></li>
-                    <li><a href="#">Modifier un article</a></li>
+                    <li><a href="index.php?action=choisir_article&fonction=modifier">Modifier un article</a></li>
                 <?php 
                     }
                     if (isEditeur($_SESSION)){
