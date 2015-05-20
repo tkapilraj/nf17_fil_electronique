@@ -53,13 +53,13 @@
 			}
 		}
 		else{
-			// redirection vers l'article
+			// redirection vers l'index
 			header('Location: index.php'); 
 		}
 		
 	}
 	else{
-		// redirection vers l'article
+		// redirection vers l'index
 		header('Location: index.php'); 
 	}
 	
