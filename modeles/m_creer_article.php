@@ -13,11 +13,11 @@
 	function creerArticle($connexion,$titre){
 		// on protège les entrées
 		$titre = pg_escape_string($titre);
+		$pseudo = pg_escape_string($_SESSION['pseudo']);
 		// requête
 		$requete1 = "INSERT INTO article(titre, _date)
 		VALUES ('$titre',NOW());";
 		// création de l'article
-		$pseudo = $_SESSION['pseudo'];
 		$query = pg_query($connexion, $requete1);
 		$requete2 = "INSERT INTO red_concoit_art(redacteur,article)
 		VALUES ('$pseudo','$titre');";
