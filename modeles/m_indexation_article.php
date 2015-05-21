@@ -13,6 +13,7 @@
     pg_query($connexion,$requete2);
     $requete3="INSERT INTO art_faipartie_indexation(article,_index)
     VALUES($article,to_timestamp($date,$formatPostGreSQL))";
+    pg_query($connexion,$requete3);
   }
   
 //fonction qui permet de relier un mot cle avec une indexation
