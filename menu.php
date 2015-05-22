@@ -5,8 +5,8 @@
         if (isConnect($_SESSION)){
         ?>
         Connecté en tant que :</br> <strong><?php print $_SESSION["pseudo"]?></strong>
-        (<a href="index.php?action=deconnexion">déconnexion</a>)            
-                <?php 
+        (<a href="index.php?action=deconnexion">déconnexion</a>)
+                <?php
                     if (isLecteur($_SESSION)) {
                 ?>
                     <li><a href="#">Commentaires</a></li>
@@ -21,7 +21,7 @@
                     <li><a href="index.php?action=choisir_article&fonction=soumettre">Soumettre un article</a></li>
                     <li><a href="#">Consulter un de mes articles</a></li>
                     <li><a href="index.php?action=choisir_article&fonction=modifier">Modifier un article</a></li>
-                <?php 
+                <?php
                     }
                     if (isEditeur($_SESSION)){
                 ?>
@@ -29,34 +29,34 @@
                     <li><a href="#">Changer l'état des articles</a></li>
                     <li><a href="#">Indexer des articles</a></li>
                     <li><a href="#">Modifier des articles</a></li>
-                    <li><a href="#">Classifier des articles</a></li>
+                    <li><a href="index.php?action=assoc_rub_article">Classifier des articles</a></li>
                     <li><a href="#">Lier des articles</a></li>
-                    <li><a href="#">Créer des rubriques</a></li>
-                <?php 
+                    <li><a href="index.php?action=creer_rubrique">Créer des rubriques</a></li>
+                <?php
                     }
                     if (isModerateur($_SESSION)) {
                 ?>
                     <li><a href="#">Consulter tous les commentaires</a></li>
                     <li><a href="#">Modérer les commentaires</a></li>
-                <?php 
+                <?php
                     }
                     if (isAdministrateur($_SESSION)) {
-                ?>                
+                ?>
                     <li><a href="#">Gérer les comptes</a></li>
                     <li><a href="#">Historique</a></li>
-                <?php 
+                <?php
                     }
                 ?>
-                <li><a href="index.php?action=deconnexion">Déconnexion</a></li>  
-        <?php 
+                <li><a href="index.php?action=deconnexion">Déconnexion</a></li>
+        <?php
         }
         else{
-        ?>           
+        ?>
             <li><a href="index.php">Home</a></li>
             <li><a href="index.php?action=rubriques">Rubriques</a></li>
             <li><a href="index.php?action=recherche">Recherche</a></li>
             <li><a href="index.php?action=connexion">Connexion</a></li>
-            <li><a href="index.php?action=inscription">Inscription</a></li>      
+            <li><a href="index.php?action=inscription">Inscription</a></li>
         <?php
         }
         ?>
