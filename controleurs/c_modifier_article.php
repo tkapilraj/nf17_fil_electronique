@@ -2,11 +2,6 @@
 	if (isConnect($_SESSION)  && $_SESSION['redacteur'] ){ 
 		// afin d'etre sur que la personne cherchant à accèder à la page est connectée est qu'elle est un rédacteur
 		if(!empty($_GET["action"]) && $_GET["action"] == "modifier_article" && !empty($_POST["titre"]) ){
-			//&& ( 
-			//	()
-			//	||()
-			//	||()
-			//	){
 			$pseudo = pg_escape_string($_SESSION['pseudo']);
 			$titreArticle = $_POST['titre'];
 			if(empty($_POST['choix'])){
@@ -21,10 +16,48 @@
 					case 'modifier_bloc_texte' :
 						// $result = recupArticleRestaurables($connexion);
 						echo "modifier_bloc_texte";// ->test
+
 						break;
 					case 'modifier_bloc_image' :
-						// $result = recupArticlesSupprimables($connexion);
-						echo "modifier_bloc_image";// -> test
+					ini_set('display_errors', TRUE); // -> test
+					error_reporting(-1);//  -> test
+						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
+						// echo "modifier_bloc_image";// -> test
+						if(empty($_POST['titre_bloc_image'])){
+							// on doit afficher une liste afin que l'utilisateur puisse choisir le bloc qu'il souhaite modifier 
+							$listeBlocsImages = recupererBlocsArticleImage($connexion,$titreArticle);
+							if($listeBlocsImages == FALSE){
+								$messageEchec = "Nous n'avons pas réussi à générer une liste des blocs de l'article $titreArticle. Veuillez nous en excuser et réessayer.";
+							}	
+						
+						}
+						elseif(empty($_POST['new_titre_bloc_image']) || !isset($_FILES['new_contenu_bloc_image']) || $_FILES['new_contenu_bloc_image']['error'] > 0){
+							$titreBlocImage = $_POST['titre_bloc_image'];
+							$blocImageActuel = recupererBlocImageActuel($connexion,$titreArticle,$titreBlocImage);
+							if($blocImageActuel == FALSE){
+								$messageEchec = "Nous n'avons pas réussi à récupérer à vous afficher le bloc image $titreBlocImage de l'article $titreArticle. Veuillez nous en excuser et réessayer.";
+							}	
+						}
+						else{
+							$maxsize = 10485760; // on autorise une image de taille maximum 10 mo
+							$maxwidth = 10000; // largeur maximale
+							$maxheight = 10000; // hauteur maximale
+							$extensions_valides = array( 'jpg' , 'jpeg' , 'gif' , 'png', 'bmp');
+							$oldTitreBlocImage = $_POST['titre_bloc_image'];
+							$newTitreBlocImage = $_POST['new_titre_bloc_image'];
+							$indexNewContenuBlocImage = 'new_contenu_bloc_image';
+							$message = remplacerBlocImage($connexion, $titreArticle, $oldTitreBlocImage, $newTitreBlocImage, 
+								$indexNewContenuBlocImage,$maxsize,$extensions_valides, $maxwidth, $maxheight);
+							if($message == "ok"){
+								$messageReussite = "Nous avons bien pris compte vos modifications du bloc image $newTitreBlocImage de l'article $titreArticle";
+							}
+							else{
+								$messageEchec = $message;
+							}
+							// echo "On doit maintenant pouvoir afficher un succès ou demander au user de changer de titre";
+						}
+						include(dirname(__FILE__).'/../vues/v_modifier_bloc_image.php');
+
 						break;
 					case 'supprimer_bloc' :
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
@@ -59,7 +92,6 @@
 						include(dirname(__FILE__).'/../vues/v_supprimer_bloc.php');				
 						break;
 					case 'ajouter_bloc_image' :
-						// $result = recupArticlesModifiables($connexion);
 						if(!empty($_POST['choix']) && !empty($_POST['titre_bloc_image']) && isset($_FILES['contenu_bloc_image']) ){
 							include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
 							$choix = $_POST['choix'];

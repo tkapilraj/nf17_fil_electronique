@@ -13,11 +13,11 @@
 	    $ext = strtolower(  substr(  strrchr($_FILES[$index]['name'], '.')  ,1)  );
 	    if ($extensions !== FALSE AND !in_array($ext,$extensions)) 
 	     	return "extension non valide";
-		$image_sizes = getimagesize($_FILES['contenu_bloc_image']['tmp_name']);
+		$image_sizes = getimagesize($_FILES[$index]['tmp_name']);
 		if ( ($maxwidth !== FALSE && $image_sizes[0] > $maxwidth) OR ($maxheight !== FALSE && $image_sizes[1] > $maxheight) ){
-			echo "largeur : $image_sizes[0], $maxwidth"; 
-			echo "<br/>"; 
-			echo "hauteur : $image_sizes[1], $maxheight"; 
+			// echo "largeur : $image_sizes[0], $maxwidth"; // -> test
+			// echo "<br/>"; // -> test
+			// echo "hauteur : $image_sizes[1], $maxheight"; // -> test 
 			return "image trop grande";
 		}
 		//Déplacement
@@ -116,5 +116,43 @@
 		return $result;
 	}
 
+	function recupererBlocImageActuel($connexion,$titreArticle,$titreBlocImage){
+		$titreArticle = pg_escape_string($titreArticle);
+		$titreBlocImage = pg_escape_string($titreBlocImage); 
+		$requete = "SELECT contenu_img 
+		FROM image
+		WHERE titreBloc = '$titreBlocImage'
+		AND titreArticle = '$titreArticle';";
+		$result = pg_query($connexion, $requete);
+		return $result;
+	}
 
+	function presenceTitreBlocImage($connexion,$titreArticle,$titreBlocImage){
+		$titreArticle = pg_escape_string($titreArticle);
+		$titreBlocImage = pg_escape_string($titreBlocImage); 
+		$requete = "SELECT * 
+		FROM image
+		WHERE titreBloc = '$titreBlocImage'
+		AND titreArticle = '$titreArticle';";
+		$result = pg_query($connexion, $requete);
+		if ($result == FALSE || pg_num_rows($result) > 0){
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+
+	}
+	function remplacerBlocImage($connexion, $titreArticle, $oldTitreBlocImage, $newTitreBlocImage, 
+		$indexNewContenuBlocImage,$maxsize,$extensions, $maxwidth, $maxheight){
+		if($oldTitreBlocImage != $newTitreBlocImage){
+			if(presenceTitreBlocImage($connexion,$titreArticle,$newTitreBlocImage)){
+				return "Le titre du bloc image newTitreBlocImage existe déjà dans l'article $titreArticle. Veuillez le modifier.";
+			}			
+		}
+		if(!supprimerBlocArticleImage($connexion, $titreArticle, $oldTitreBlocImage)){
+			return "Veuillez nous excuser, la modification de l'article a échoué. Veuillez réessayer.";
+		}
+		return uploadAndSave($connexion,$titreArticle,$newTitreBlocImage,$indexNewContenuBlocImage,$maxsize, $extensions, $maxwidth, $maxheight);
+	}
 ?>
