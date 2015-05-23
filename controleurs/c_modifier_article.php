@@ -14,13 +14,44 @@
 				$result  = 0;
 				switch($choix){
 					case 'modifier_bloc_texte' :
-						// $result = recupArticleRestaurables($connexion);
 						echo "modifier_bloc_texte";// ->test
-
+						ini_set('display_errors', TRUE); // -> test
+						error_reporting(-1);//  -> test
+						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
+						if(empty($_POST['titre_bloc_texte'])){
+							// on doit afficher une liste afin que l'utilisateur puisse choisir le bloc qu'il souhaite modifier 
+							$listeBlocsTextes = recupererBlocsArticleTexte($connexion,$titreArticle);
+							if($listeBlocsTextes == FALSE){
+								$messageEchec = "Nous n'avons pas réussi à générer une liste des blocs de l'article $titreArticle. Veuillez nous en excuser et réessayer.";
+							}	
+						
+						}
+						elseif(empty($_POST['new_titre_bloc_texte']) || empty($_POST['new_contenu_bloc_texte']) || empty($_POST['contenu_bloc_texte'])){
+							$titreBlocTexte = $_POST['titre_bloc_texte'];
+							$blocTexteActuel = recupererBlocTexteActuel($connexion, $titreArticle, $titreBlocTexte);
+							if($blocTexteActuel == FALSE){
+								$messageEchec = "Nous n'avons pas réussi à vous afficher le bloc texte $titreBlocTexte de l'article $titreArticle. Veuillez nous en excuser et réessayer.";
+							}	
+						}
+						else{
+							echo "On doit maintenant pouvoir afficher un succès ou demander au user de changer de titre";
+							$oldTitreBlocTexte = $_POST['titre_bloc_texte'];
+							$oldContenuBlocTexte = $_POST['contenu_bloc_texte'];
+							$newTitreBlocTexte = $_POST['new_titre_bloc_texte'];
+							$newContenuBlocTexte = $_POST['new_contenu_bloc_texte'];
+							$message = remplacerBlocTexte($connexion, $titreArticle, $oldTitreBlocTexte, $oldContenuBlocTexte, $newTitreBlocTexte, $newContenuBlocTexte);
+							if($message == "ok"){
+								$messageReussite = "Nous avons bien pris en compte vos modifications du bloc texte $newTitreBlocTexte de l'article $titreArticle";
+							}
+							else{
+								$messageEchec = $message;
+							}
+						}
+						include(dirname(__FILE__).'/../vues/v_modifier_bloc_texte.php');
 						break;
 					case 'modifier_bloc_image' :
-					ini_set('display_errors', TRUE); // -> test
-					error_reporting(-1);//  -> test
+						// ini_set('display_errors', TRUE); // -> test
+						// error_reporting(-1);//  -> test
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
 						// echo "modifier_bloc_image";// -> test
 						if(empty($_POST['titre_bloc_image'])){
@@ -35,7 +66,7 @@
 							$titreBlocImage = $_POST['titre_bloc_image'];
 							$blocImageActuel = recupererBlocImageActuel($connexion,$titreArticle,$titreBlocImage);
 							if($blocImageActuel == FALSE){
-								$messageEchec = "Nous n'avons pas réussi à récupérer à vous afficher le bloc image $titreBlocImage de l'article $titreArticle. Veuillez nous en excuser et réessayer.";
+								$messageEchec = "Nous n'avons pas réussi à vous afficher le bloc image $titreBlocImage de l'article $titreArticle. Veuillez nous en excuser et réessayer.";
 							}	
 						}
 						else{
@@ -49,7 +80,7 @@
 							$message = remplacerBlocImage($connexion, $titreArticle, $oldTitreBlocImage, $newTitreBlocImage, 
 								$indexNewContenuBlocImage,$maxsize,$extensions_valides, $maxwidth, $maxheight);
 							if($message == "ok"){
-								$messageReussite = "Nous avons bien pris compte vos modifications du bloc image $newTitreBlocImage de l'article $titreArticle";
+								$messageReussite = "Nous avons bien pris en compte vos modifications du bloc image $newTitreBlocImage de l'article $titreArticle";
 							}
 							else{
 								$messageEchec = $message;

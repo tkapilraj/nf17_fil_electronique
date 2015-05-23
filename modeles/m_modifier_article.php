@@ -141,18 +141,87 @@
 		else{
 			return FALSE;
 		}
-
 	}
+
+	function presenceTitreBlocTexte($connexion,$titreArticle,$newTitreBlocTexte){
+		$titreArticle = pg_escape_string($titreArticle);
+		$newTitreBlocTexte = pg_escape_string($newTitreBlocTexte); 
+		$text = "text";
+		$requete = "SELECT * 
+		FROM $text
+		WHERE titreBloc = '$newTitreBlocTexte'
+		AND titreArticle = '$titreArticle';";
+		$result = pg_query($connexion, $requete);
+		if ($result == FALSE || pg_num_rows($result) > 0){
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+	function presenceContenuBlocTexte($connexion, $newContenuBlocTexte){
+		$newContenuBlocTexte = pg_escape_string($newContenuBlocTexte); 
+		$text = "text";
+		$requete = "SELECT * 
+		FROM $text
+		WHERE contenu_txt = '$newContenuBlocTexte';";
+		$result = pg_query($connexion, $requete);
+		if ($result == FALSE || pg_num_rows($result) > 0){
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
 	function remplacerBlocImage($connexion, $titreArticle, $oldTitreBlocImage, $newTitreBlocImage, 
 		$indexNewContenuBlocImage,$maxsize,$extensions, $maxwidth, $maxheight){
 		if($oldTitreBlocImage != $newTitreBlocImage){
 			if(presenceTitreBlocImage($connexion,$titreArticle,$newTitreBlocImage)){
-				return "Le titre du bloc image newTitreBlocImage existe déjà dans l'article $titreArticle. Veuillez le modifier.";
+				return "Le titre du bloc image $newTitreBlocImage existe déjà dans l'article $titreArticle. Veuillez en choisir un autre.";
 			}			
 		}
 		if(!supprimerBlocArticleImage($connexion, $titreArticle, $oldTitreBlocImage)){
 			return "Veuillez nous excuser, la modification de l'article a échoué. Veuillez réessayer.";
 		}
 		return uploadAndSave($connexion,$titreArticle,$newTitreBlocImage,$indexNewContenuBlocImage,$maxsize, $extensions, $maxwidth, $maxheight);
+	}
+
+	function recupererBlocTexteActuel($connexion, $titreArticle, $titreBlocTexte){
+		$titreArticle = pg_escape_string($titreArticle);
+		$titreBlocTexte = pg_escape_string($titreBlocTexte);
+		$text = "text"; 
+		$requete = "SELECT contenu_txt 
+		FROM $text
+		WHERE titreBloc = '$titreBlocTexte'
+		AND titreArticle = '$titreArticle';";
+		$result = pg_query($connexion, $requete);
+		return $result;
+	}
+
+	function remplacerBlocTexte($connexion, $titreArticle, $oldTitreBlocTexte, $oldContenuBlocTexte, $newTitreBlocTexte, $newContenuBlocTexte){
+		$titreArticle = pg_escape_string($titreArticle);
+		$oldTitreBlocTexte = pg_escape_string($oldTitreBlocTexte);
+		$oldContenuBlocTexte = pg_escape_string($oldContenuBlocTexte);
+		$newTitreBlocTexte = pg_escape_string($newTitreBlocTexte);
+		$newContenuBlocTexte = pg_escape_string($newContenuBlocTexte);
+		if( ($oldTitreBlocTexte == $newTitreBlocTexte) && ($oldContenuBlocTexte == $newContenuBlocTexte) ){
+			return "ok";
+		}
+		if( ($oldTitreBlocTexte != $newTitreBlocTexte) ){
+			if(presenceTitreBlocTexte($connexion,$titreArticle,$newTitreBlocTexte)){
+				return "Le titre du bloc texte $newTitreBlocTexte existe déjà dans l'article $titreArticle. Veuillez en choisir un autre.";
+			}		
+		}
+		if( $oldContenuBlocTexte != $newContenuBlocTexte ){
+			if(presenceContenuBlocTexte($connexion,$titreArticle,$newContenuBlocTexte)){
+				return "Le contenu du bloc texte $newTitreBlocTexte existe déjà dans l'article $titreArticle. Veuillez en choisir un autre.";
+			}	
+		}
+		if(!supprimerBlocArticleTexte($connexion, $titreArticle, $oldTitreBlocTexte)){
+			return "Veuillez nous excuser, la modification de l'article a échoué. Veuillez réessayer.";
+		}
+		return ajouterBlocTexte($connexion,$titreArticle,$newTitreBlocTexte, $newContenuBlocTexte);
 	}
 ?>

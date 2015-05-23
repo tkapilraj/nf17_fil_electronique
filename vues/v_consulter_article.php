@@ -21,15 +21,33 @@
 	else{		
 		// affichage de l'article en question
 		echo "<h2>$titreArticle</h2>";		
-		while($result = pg_fetch_array($result1)) {
-			echo '<div class="cleaner_h10"></div>';
-			echo "<h3>".$result['titre']."</h3>";
-			echo "<p>".$result['contenu']."</p>";
+		if(pg_num_rows($result1) == 0 && pg_num_rows($result2) == 0){
+			echo "<h3>L'article $titreArticle ne contient pas de bloc</h3>";
 		}
-		while($result = pg_fetch_array($result2)) {
-			echo '<div class="cleaner_h10"></div>';
-			echo "<h3>".$result['titre']."</h3>";
-			echo "<p>".$result['contenu']."</p>";
-		}				
+		else{
+			$i = 1;
+			while($result = pg_fetch_array($result1)) {
+				if($i == 1){
+					echo "<h3>Bloc d'image</h3>";
+				}
+				echo '<div class="cleaner_h10"></div>';
+				echo "<h3>".$result['titre']."</h3>";
+				$cheminFichier = 'images_articles/'.$result['contenu'];
+				echo "<figure>";
+				echo "<a href='$cheminFichier' target='_blank'><img src='$cheminFichier' alt='image ".$result['titre']." $titreArticle' height='100' width='100' title='cliquez pour agrandir' ></a>";
+				echo"</figure>";
+				$i++;
+			}
+			$i = 1;
+			while($result = pg_fetch_array($result2)) {
+				if($i == 1){
+					echo "<h3>Bloc de textes</h3>";
+				}
+				echo '<div class="cleaner_h10"></div>';
+				echo "<h3>".$result['titre']."</h3>";
+				echo "<p>".$result['contenu']."</p>";
+				$i++;
+			}	
+		}			
 	}
 ?>

@@ -1,17 +1,16 @@
 <h2>Modification d'un bloc image</h2>
 <?php
-
 	if(!empty($messageReussite)){
-		// demande de l'utilisateur a bouti
-		echo "<h2>$messageReussite</h2>";
+		// la demande de l'utilisateur a abouti
+		echo "<h3>$messageReussite</h3>";
 	}
 	else{
 		if(!empty($messageEchec)){
-			echo "<h2>$messageEchec</h2>";
+			echo "<h3>$messageEchec</h3>";
 		}
 		if(!empty($listeBlocsImages) && $listeBlocsImages != FALSE){
 			if(pg_num_rows($listeBlocsImages) == 0){
-				echo "L'article $titreArticle ne contient pas encore de blocs";
+				echo "L'article $titreArticle ne contient pas encore de blocs d'image";
 			}
 			else{
 				$i=1;
