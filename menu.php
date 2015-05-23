@@ -19,7 +19,7 @@
                     <li><a href="index.php?action=choisir_article&fonction=restaurer">Restaurer un article supprimé</a></li>
                     <li><a href="index.php?action=choisir_article&fonction=supprimer">Supprimer un article</a></li>
                     <li><a href="index.php?action=choisir_article&fonction=soumettre">Soumettre un article</a></li>
-                    <li><a href="#">Consulter un de mes articles</a></li>
+                    <li><a href="index.php?action=consulter_article">Consulter un article</a></li>
                     <li><a href="index.php?action=choisir_article&fonction=modifier">Modifier un article</a></li>
                 <?php 
                     }
