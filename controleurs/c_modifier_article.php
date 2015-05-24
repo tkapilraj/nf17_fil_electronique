@@ -15,8 +15,8 @@
 				switch($choix){
 					case 'modifier_bloc_texte' :
 						echo "modifier_bloc_texte";// ->test
-						ini_set('display_errors', TRUE); // -> test
-						error_reporting(-1);//  -> test
+						// ini_set('display_errors', TRUE); // -> test
+						// error_reporting(-1);//  -> test
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
 						if(empty($_POST['titre_bloc_texte'])){
 							// on doit afficher une liste afin que l'utilisateur puisse choisir le bloc qu'il souhaite modifier 
