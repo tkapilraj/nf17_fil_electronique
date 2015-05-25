@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Le fil électronique</title>
+		<title>Le fil-électronique</title>
 		<meta name="keywords" content="" />
 		<meta name="description" content="" />
 		<link href="style.css" rel="stylesheet" type="text/css" />

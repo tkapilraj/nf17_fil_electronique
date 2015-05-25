@@ -30,7 +30,7 @@
                     <li><a href="#">Indexer des articles</a></li>
                     <li><a href="index.php?action=ed_modifier_article">Modifier un article</a></li>
                     <li><a href="index.php?action=assoc_rub_article">Classifier des articles</a></li>
-                    <li><a href="#">Lier des articles</a></li>
+                    <li><a href="index.php?action=ajouter_lien">Lier des articles</a></li>
                     <li><a href="index.php?action=creer_rubrique">Créer des rubriques</a></li>
                 <?php
                     }
