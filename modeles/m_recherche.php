@@ -2,7 +2,7 @@
 
 
     function getAllRubriques($connect){
-        $requete = "SELECT nom FROM rubrique";
+        $requete = "SELECT * FROM rubrique";
         $query = pg_query($connect, $requete);
         return $query;
     }

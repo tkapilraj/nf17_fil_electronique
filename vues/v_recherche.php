@@ -10,6 +10,7 @@
             <td><input type="text" name="motcle"
                        maxlength="32"
                        placeholder="Entrez un mot-clé"
+                       required
                     ></td>
         </tr>
         <tr>
@@ -18,7 +19,7 @@
                 <option>tous</option>
                 <?php
                     while($result = pg_fetch_array($rubriques)){
-                        echo '<option>'.$result["nom"];
+                        echo '<option>'.$result["rubrique_mere"].'->'.$result["nom"];
                     }
 
                 ?>
