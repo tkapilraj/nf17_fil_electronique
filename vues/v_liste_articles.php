@@ -8,7 +8,11 @@
 			echo '<div class="col_w270 float_r">';
 		}
 		echo "<h3>".$result['titre']."</h3>";
-		echo "<p>".$result['texte']."</p>";
+		if(!empty($result['texte'])){
+			// on n'est pas sûr que l'article contienne au moins un bloc de texte
+			// (rien n'interdit qu'il ne contienne que des blocs d'image par exemple)
+			echo "<p>".$result['texte']."</p>";
+		}
 		echo '<div class="button float_r"><a href="index.php?action=articles&param='.$result['titre'].'">Plus</a></div></div>';
 		$i++;
 	}			

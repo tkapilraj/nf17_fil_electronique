@@ -1,7 +1,7 @@
 <?php	
-	if (isConnect($_SESSION)  && $_SESSION['redacteur'] ){ 
-		// afin d'etre sur que la personne cherchant à accèder à la page est connectée est qu'elle est un rédacteur
-		if(!empty($_GET["action"]) && $_GET["action"] == "modifier_article" && !empty($_POST["titre"]) ){
+	if (isConnect($_SESSION)  && ($_SESSION['redacteur'] || $_SESSION['editeur'])  ){ 
+		// afin d'etre sur que la personne cherchant à accèder à la page est connectée est qu'elle est soit un rédacteur, soit un éditeur
+		if(!empty($_GET["action"]) && $_GET["action"] == "modifier_article" && !empty($_POST["titre"])){
 			$pseudo = pg_escape_string($_SESSION['pseudo']);
 			$titreArticle = $_POST['titre'];
 			if(empty($_POST['choix'])){
@@ -14,9 +14,9 @@
 				$result  = 0;
 				switch($choix){
 					case 'modifier_bloc_texte' :
-						echo "modifier_bloc_texte";// ->test
-						ini_set('display_errors', TRUE); // -> test
-						error_reporting(-1);//  -> test
+						// echo "modifier_bloc_texte";// ->test
+						// ini_set('display_errors', TRUE); // -> test
+						// error_reporting(-1);//  -> test
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
 						if(empty($_POST['titre_bloc_texte'])){
 							// on doit afficher une liste afin que l'utilisateur puisse choisir le bloc qu'il souhaite modifier 
@@ -34,7 +34,6 @@
 							}	
 						}
 						else{
-							echo "On doit maintenant pouvoir afficher un succès ou demander au user de changer de titre";
 							$oldTitreBlocTexte = $_POST['titre_bloc_texte'];
 							$oldContenuBlocTexte = $_POST['contenu_bloc_texte'];
 							$newTitreBlocTexte = $_POST['new_titre_bloc_texte'];
@@ -85,10 +84,8 @@
 							else{
 								$messageEchec = $message;
 							}
-							// echo "On doit maintenant pouvoir afficher un succès ou demander au user de changer de titre";
 						}
 						include(dirname(__FILE__).'/../vues/v_modifier_bloc_image.php');
-
 						break;
 					case 'supprimer_bloc' :
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
@@ -96,9 +93,12 @@
 						if(empty($_POST['titre_bloc'])){
 							$result1 = recupererBlocsArticleTexte($connexion,$titreArticle);
 							$result2 = recupererBlocsArticleImage($connexion,$titreArticle);
-							if(!result1 && !result2){
+							if(!$result1 || !$result2){
 								$messageEchec = "La requête n'a pas abouti désolé. Veuillez réessayer.";
 							}		
+							elseif(pg_num_rows($result1) == 0  && pg_num_rows($result2) == 0){
+								$messageEchec = "L'article $titreArticle ne contient pas encore de blocs.";
+							}
 						}
 						else{
 							$titreBloc = $_POST['titre_bloc'];
@@ -157,7 +157,6 @@
 							}
 						}
 						include(dirname(__FILE__).'/../vues/v_ajouter_bloc_texte.php');
-						// echo "ajouter_bloc_image"; -> test
 				}				
 			}
 		}

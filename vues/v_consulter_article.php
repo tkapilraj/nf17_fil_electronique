@@ -28,7 +28,7 @@
 			$i = 1;
 			while($result = pg_fetch_array($result1)) {
 				if($i == 1){
-					echo "<h3>Bloc d'image</h3>";
+					echo "<h3>Bloc(s) d'image</h3>";
 				}
 				echo '<div class="cleaner_h10"></div>';
 				echo "<h3>".$result['titre']."</h3>";
@@ -41,7 +41,7 @@
 			$i = 1;
 			while($result = pg_fetch_array($result2)) {
 				if($i == 1){
-					echo "<h3>Bloc de textes</h3>";
+					echo "<h3>Bloc(s) de textes</h3>";
 				}
 				echo '<div class="cleaner_h10"></div>';
 				echo "<h3>".$result['titre']."</h3>";
