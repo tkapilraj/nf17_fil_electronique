@@ -39,4 +39,13 @@
 		$query = pg_query($connexion, $requete);
 		return $query;
 	}
+
+    function getArticlesLies($connect, $article){
+        $article = pg_escape_string($article);
+        $requete = "SELECT article2 FROM lien WHERE article1 = '$article'";
+        $result = pg_query($connect, $requete);
+        return $result;
+    }
+
+
 ?>

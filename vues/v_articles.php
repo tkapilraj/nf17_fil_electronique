@@ -1,5 +1,20 @@
-<?php 
-	echo "<h2>$article</h2>";		
+<?php
+    echo '<INPUT TYPE="button" VALUE="<= Retour" onClick="history.back()"><br><br>';
+
+	echo "<h2>$article</h2>";
+
+    // affichage des articles lies
+    echo "<i>Article(s) lié(s) : ";
+    if(pg_num_rows($result_articles_lies)<=0)
+        echo "aucun";
+    else {
+        while ($res = pg_fetch_array($result_articles_lies)) {
+            echo $res["article2"];
+            echo ", ";
+        }
+    }
+    echo "</i><br><br>";
+
 	if(pg_num_rows($result1) == 0 && pg_num_rows($result2) == 0){
 		echo "<h3>L'article $article ne contient pas de bloc</h3>";
 	}

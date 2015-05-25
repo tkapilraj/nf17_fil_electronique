@@ -8,6 +8,7 @@ if (!empty($_GET['param'])) {
 	$article=$_GET['param'];
 	//affichage possible uniquement si l'article a été validé par un éditeur
 	if(isArticleValide($connexion, $article)) {
+            $result_articles_lies = getArticlesLies($connexion,$article);
 			$result1 = getArticleImages($connexion, $article);
 			$result2 = getArticleTextes($connexion, $article);			
 		//On inclut la vue

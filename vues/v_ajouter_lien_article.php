@@ -1,27 +1,27 @@
 <?php
 
 if($result == -1 || $result == 0)
-    echo '<INPUT TYPE="button" VALUE="<= Back" onClick="history.back()"><br><br>';
+    echo '<INPUT TYPE="button" VALUE="<= Retour" onClick="history.back()"><br><br>';
 
 
 if($result == -1)
     echo "<h3>Impossible de lier un article à lui-même.</h3>";
 else if($result == 0)
-    echo "<h3>Le lien existe déjà.</h3>";
+    echo "<h3>Ce lien existe déjà.</h3>";
 else if($result == 1)
-    echo "<h3>Le lien entre les articles '$art1' et '$art2' a bien été créé.</h3>";
+    echo "<h3>L'article '$art1' a bien été lié à '$art2'.</h3>";
 else {
 
 
-    echo "<h2> Ajouter un lien entre deux articles</h2>";
+    echo "<h2> Lier des articles</h2>";
 
 
     echo '<form method="post" action="index.php">
         <input type="hidden" name="action" value="ajouter_lien_article">
         <input type="hidden" name="param" value="aff_confirmation">
-        <table>
+        <table cellpadding="2" cellspacing="2">
             <tr>
-                <td> Premier article : </td>
+                <td> Article : </td>
                 <td>
                     <select name="article1" size="1">';
 
@@ -33,7 +33,7 @@ else {
                 </td>
             </tr>
             <tr>
-                <td> Second article : </td>
+                <td> sera lié à : </td>
                 <td><select name="article2" size="1">';
 
 

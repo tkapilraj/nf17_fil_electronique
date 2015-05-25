@@ -1,6 +1,6 @@
 <?php
 
-    echo '<INPUT TYPE="button" VALUE="<= Back" onClick="history.back()"><br>';
+    echo '<INPUT TYPE="button" VALUE="<= Retour" onClick="history.back()"><br>';
     echo "<br><h2> Résultats de la recherche : </h2>";
 
 
