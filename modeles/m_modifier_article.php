@@ -52,7 +52,7 @@
 		// echo "$requete"; -> test
 		$query = pg_query($connexion, $requete);
 		if (!$query){
-			return "votre titre de bloc texte $titre_bloc_texte existe déjà";
+			return "votre titre de bloc texte $titre_bloc_texte ou votre contenu de bloc texte existe déjà";
 		}
     	return  "ok";
 	}

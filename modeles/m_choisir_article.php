@@ -152,11 +152,30 @@ UNION
 		pg_query($connexion,$requete);
 	}
 
-/*
-	function soumettreArticle($connexion,$titreArticle){
-		$requete ="";
-		pg_query($connexion, $requete);
-
+	function recupArticleModifiablesEditeur($connexion, $editeur){
+		$requete = "SELECT CE.article 
+		FROM changement_etat_art_ed CE
+		WHERE CE._date IN(
+			SELECT SR1._date 
+			FROM
+			(
+				SELECT C.article, MAX(C._date) AS _date 
+				FROM changement_etat_art_ed C
+				WHERE C.editeur IN
+				( 
+					SELECT E.pseudo 
+					FROM editeur E
+					WHERE E.comite IN 
+					(
+						SELECT comite		
+						FROM editeur
+						WHERE pseudo='$editeur'
+					)
+				)
+				GROUP BY C.article
+			)SR1
+		)AND CE.etat='en_relecture';";
+		$result = pg_query($connexion,$requete);
+		return $result;
 	}
-*/
 ?>
