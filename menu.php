@@ -9,8 +9,9 @@
                 <?php
                     if (isLecteur($_SESSION)) {
                 ?>
-                    <li><a href="#">Commentaires</a></li>
-                    <li><a href="#">Recherches</a></li>
+                    <li><a href="index.php">Home</a></li>
+					<li><a href="index.php?action=rubriques">Rubriques</a></li>
+					<li><a href="index.php?action=recherche">Recherche</a></li>
                 <?php
                     }
                     if (isRedacteur($_SESSION)) {

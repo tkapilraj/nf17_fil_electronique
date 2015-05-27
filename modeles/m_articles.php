@@ -10,11 +10,31 @@
 		return $query;
 	}
 
+	//retourne le dernier état d'un article parmi les états attribué par un éditeur et l'auteur (soumission inclus)
+	function getLastArticleState($connexion, $article) {
+		// on protège les entrées
+		$article = pg_escape_string($article);
+		$requete = "SELECT etat
+					FROM (SELECT cast(etat as varchar), _date as date 
+							FROM changement_etat_art_red 
+							WHERE article='$article' 
+							UNION (SELECT 'soumis' as etat, soumis as date 
+									FROM art_appartient_soum 
+									WHERE article='$article' 
+									UNION SELECT cast(etat as varchar), _date as date 
+									FROM changement_etat_art_ed 
+									WHERE article='$article')) as req
+					ORDER BY date DESC 
+					LIMIT 1";
+		$query = pg_query($connexion, $requete);
+		return $query;
+	}
+	
 	function isArticleValide($connexion, $article) {
 		// on protège les entrées
 		$article = pg_escape_string($article);
 		// requête
-		$etat = etatArticleEd($connexion, $article);
+		$etat = getLastArticleState($connexion, $article);
 		$resultat = pg_fetch_array($etat);
 		if($resultat['etat']='valide') {
 			return true;
