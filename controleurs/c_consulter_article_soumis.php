@@ -7,7 +7,7 @@
 			if(empty($_POST["titre"]) ){
 				include(dirname(__FILE__).'/../modeles/m_consulter_article_soumis.php'); 
 				// inclusion du modèle
-				$result = getArticlesSoumis($connexion, $pseudo);
+				$result = getArticleSoumis($connexion, $pseudo);
 			}
 			else{
 				// on doit gérer la volonté de l'utilisateur
