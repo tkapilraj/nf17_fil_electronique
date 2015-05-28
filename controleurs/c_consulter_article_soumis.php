@@ -1,6 +1,6 @@
 <?php	
 	if (isConnect($_SESSION)  && $_SESSION['editeur'] ){ 
-		// afin d'etre sur que la personne cherchant à accèder à la page est connectée est qu'elle est un rédacteur
+		// afin d'etre sur que la personne cherchant à accèder à la page est connectée est qu'elle est un éditeur
 		if( !empty($_GET["action"]) && $_GET["action"] == "consulter_article_soumis"){
 			// si on dispose des paramètres suffisants et que le visiteur accède à la page intentionnellement
 			$pseudo = $_SESSION['pseudo'];
