@@ -9,6 +9,26 @@
 		$query = pg_query($connexion, $requete);
 		return $query;
 	}
+	
+	//retourne les articles ayant pour état le plus récent un parmi ceux de la liste $states de la forme ('state1', 'state2')
+	function getArticlesInStates($connexion, $states) {
+		// requête
+		$requete = "WITH MostRecentState AS (
+					SELECT titre, etat, date,
+					ROW_NUMBER() OVER (PARTITION BY titre ORDER BY date DESC) AS RowNumber
+					FROM (SELECT article as titre, cast(etat as varchar), _date as date 
+							FROM changement_etat_art_red 
+							UNION (SELECT article as titre,'soumis' as etat, soumis as date 
+									FROM art_appartient_soum 
+									UNION SELECT article as titre, cast(etat as varchar), _date as date 
+									FROM changement_etat_art_ed)) as req) 
+					SELECT m.titre, m.etat, m.date, (array_agg(t.contenu_txt))[1] as texte
+					FROM MostRecentState m, text t
+					WHERE RowNumber = 1 AND etat in $states AND m.titre=t.titreArticle
+					GROUP BY m.titre, m.etat, m.date";
+		$query = pg_query($connexion, $requete);
+		return $query;
+	}
 
 	//retourne le dernier état d'un article parmi les états attribué par un éditeur et l'auteur (soumission inclus)
 	function getLastArticleState($connexion, $article) {

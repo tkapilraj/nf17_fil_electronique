@@ -6,7 +6,7 @@ include(dirname(__FILE__).'/../modeles/m_rubriques.php');
 if (!empty($_GET['param'])) {
 	$mere=$_GET['param'];
 	$rubriques=getSousRubriques($connexion, $mere);
-	$articles=getArticlesAssocies($connexion, $mere);
+	$articles=getArticlesAssociesPublie($connexion, $mere);
 } else {
 	$rubriques=getRubriquesPrincipales($connexion);
 }

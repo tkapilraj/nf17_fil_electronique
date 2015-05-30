@@ -5,7 +5,7 @@
 	$gestion = getRandomGestion($connexion);
 	$resultat = pg_fetch_array($gestion);
 	$honneur = $resultat['honneur'];
-	$articles = getArticleGestion($connexion, $resultat['gestion']);
+	$articles = getArticlesGestionPublie($connexion, $resultat['gestion']);
 	 
 	//On inclut la vue
 	include(dirname(__FILE__).'/../vues/v_honneur.php');
