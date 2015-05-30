@@ -65,7 +65,7 @@ if ($bInscription)
 		$message = "Inscription effectuée.";
 	}
 	else{
-		$message = "Inscription échoué";
+		$message = "Inscription échouée.Veuillez réessayer puis contacter l'administrateur.";
 	}
 }
 include(dirname(__FILE__).'/../vues/v_inscription.php');

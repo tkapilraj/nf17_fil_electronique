@@ -24,33 +24,34 @@
 		$statuts=array())
 	{
 		// on protège les entrées
-		$pseudo_esc = pg_escape_string($pseudo);
-		$nom = pg_escape_string($nom);
+		$pseudo = pg_escape_string($pseudo);
+		$nom    = pg_escape_string($nom);
 		$prenom = pg_escape_string($prenom);
 		$date_naissance=pg_escape_string($date_naissance);
 		// requête
-		$requete = "INSERT INTO comptes (pseudo,nom,prenom,date_naissance)
-		VALUES ('$pseudo_esc','$nom','$prenom','$date_naissance');";
-		$query=pg_query($connexion, $requete);
-
+		$requete ="begin;\n";
+		$requete .= "INSERT INTO comptes (pseudo,nom,prenom,date_naissance)
+		VALUES ('$pseudo','$nom','$prenom','$date_naissance');\n";
 		foreach($statuts as $s)
 		{
-			addStatut($connexion,$pseudo,$s);
+			$requete .= addStatutStr($connexion,$pseudo,$s);
 		}
-		return true;
+		$requete .="commit;\n";
+		$query=pg_query($connexion, $requete);
+		return $query != false;
 	}
-	/* Ajoute un status
-	 * retourne un booleen selon si l'action s'est bien réalisé
-	 * ou non.
-	 * TODO : Support du status editeur
-	 */
-	function addStatut($connexion,$pseudo,$statut)
+	// création et retour de la requête sql d'ajout
+	// de status à un utilisateur sous forme de string.
+	// le pseudo doit être préalablement echappé.
+	//* TODO : Support du status editeur
+
+	function addStatutStr($connexion,$pseudo,$statut)
 	{
-		// code requête
+		$str="";
 		$allStatuts = getAllStatuts($connexion);
 		if ( ! in_array($statut,$allStatuts))
 		{
-			return false;
+			$str.="rollback;\n";
 		}
 		elseif ($statut == "editeur"){
 			//
@@ -58,18 +59,28 @@
 			// $pseudo = pg_escape_string($pseudo);
 			// $statut = '"'.$statut.'"';
 			// requête
-			return false;
+			$str.="rollback;\n"; // désactivée pour le moment
 		}
 		else{
 			// on protège les entrées
-			$pseudo = pg_escape_string($pseudo);
 			$statut = '"'.$statut.'"'; // protèqe l' identifiant de table
 			// requête
-			$requete = "INSERT INTO $statut (pseudo)
-			VALUES ('$pseudo');";
-			$query = pg_query($connexion, $requete);
-			return true;
+			$str .= "INSERT INTO $statut (pseudo)
+			VALUES ('$pseudo');\n";
 		}
-		return false;
+		return $str;
+	}
+	/* Ajoute un status
+	 * retourne un booleen selon si l'action s'est bien réalisé
+	 * ou non.
+	 */
+	function addStatut($connexion,$pseudo,$statut)
+	{
+		$pseudo   = pg_escape_string($pseudo);
+		$requete  ="begin;\n";
+		$requete .= addStatutStr($connexion,$pseudo,$statut);
+		$requete .="commit;\n";
+		$query    = pg_query($connexion, $requete);
+		return $query != false;
 	}
 ?>
