@@ -1,7 +1,23 @@
 <?php
 
     function getAllArticles($connect){
-        $requete = "SELECT titre FROM article";
+
+        $requete = "WITH MostRecentState AS(
+
+                            SELECT titre, etat, date,ROW_NUMBER() OVER (PARTITION BY titre ORDER BY date DESC) AS rowNumber
+                            FROM (SELECT article as titre, cast(etat as varchar), _date as date
+                                  FROM changement_etat_art_red
+                            UNION (SELECT article as titre,'soumis' as etat, soumis as date
+                                  FROM art_appartient_soum
+                            UNION (SELECT article as titre, cast(etat as varchar), _date as date
+                                  FROM changement_etat_art_ed))) AS req
+                        )
+
+                        SELECT m.titre
+                        FROM MostRecentState m, text t
+                        WHERE m.rowNumber = 1 AND (etat='publie' OR etat='valide')  AND m.titre=t.titreArticle
+                        GROUP BY m.titre";
+
         $query = pg_query($connect, $requete);
         return $query;
     }

@@ -40,9 +40,6 @@
                         WHERE m.rowNumber = 1 AND etat='publie'  AND m.titre=t.titreArticle
                         GROUP BY m.titre
                       )
-
-
-
                       GROUP BY titre";
 
             $result = pg_query($connect,$query);
