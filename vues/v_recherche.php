@@ -19,7 +19,9 @@
                 <option>tous</option>
                 <?php
                     while($result = pg_fetch_array($rubriques)){
-                        echo '<option>'.$result["rubrique_mere"].'->'.$result["nom"];
+                        echo "<option value='";
+                        echo $result["nom"].'\'';
+                        echo '>'.$result["rubrique_mere"].'->'.$result["nom"].'</option>';
                     }
 
                 ?>

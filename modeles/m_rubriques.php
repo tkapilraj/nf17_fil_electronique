@@ -36,7 +36,8 @@
 							UNION (SELECT article as titre,'soumis' as etat, soumis as date 
 									FROM art_appartient_soum 
 									UNION SELECT article as titre, cast(etat as varchar), _date as date 
-									FROM changement_etat_art_ed)) as req) 
+									FROM changement_etat_art_ed)) as req)
+
 					SELECT m.titre, (array_agg(t.contenu_txt))[1] as texte
 					FROM MostRecentState m, association a, assoc_appartient_rub r, text t
 					WHERE m.rowNumber = 1 AND etat='publie' AND rubrique='$mere' AND a._date=r._date AND a.article=m.titre AND m.titre=t.titreArticle
