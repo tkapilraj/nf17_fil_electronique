@@ -1,11 +1,4 @@
 <?php
-	/* fonction pour récupérer l'ensemble des articles*/
-	function getAllArticles($connexion)
-	{
-		$requete = "SELECT titre FROM article";
-        $query = pg_query($connexion, $requete);
-        return $query;
-	}
 	/* fonction pour associer un article à un ensemble de rubriques
 	 * l'utilisateur utilisant la fonction doit être un éditeur
 	 * cette paternité est tracé dans la table ed_cree_assoc.
@@ -24,20 +17,21 @@
 		$formatPostGreSQL = "DD-MM-YYYY HH24:MI:SS:US";
 		$date = date($formatPHP);
 		/// création association
-		$requete1 = "INSERT INTO association(_date, article)
-		VALUES (to_timestamp('$date','$formatPostGreSQL'), '$article');";
-		$query = pg_query($connexion, $requete1);
+		$requete ="begin;\n";
+		$requete .= "INSERT INTO association(_date, article)
+		VALUES (to_timestamp('$date','$formatPostGreSQL'), '$article');\n";
 		/// traçabilité du créateur de l'association
-		$requete2 = "INSERT INTO ed_cree_assoc(editeur, _date)
-		VALUES ('$pseudo',to_timestamp('$date','$formatPostGreSQL'));";
-		$query = pg_query($connexion, $requete2);
+		$requete .= "INSERT INTO ed_cree_assoc(editeur, _date)
+		VALUES ('$pseudo',to_timestamp('$date','$formatPostGreSQL'));\n";
 		/// ajout des rubriques à l'association
 		foreach ($rubriques as $rubrique)
 		{
-			$requete3 = "INSERT INTO assoc_appartient_rub(_date, rubrique)
-			VALUES (to_timestamp('$date','$formatPostGreSQL'),'$rubrique');";
-			$query = pg_query($connexion, $requete3);
+			$requete .= "INSERT INTO assoc_appartient_rub(_date, rubrique)
+			VALUES (to_timestamp('$date','$formatPostGreSQL'),'$rubrique');\n";
 		}
+		$requete .= "commit;\n";
+		$query = pg_query($connexion, $requete);
+		return $query != False;
 	}
 
 

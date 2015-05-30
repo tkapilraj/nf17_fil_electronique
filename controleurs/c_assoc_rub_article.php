@@ -1,6 +1,9 @@
 <?php
 	// pour getAllRubriques
 	include(dirname(__FILE__).'/../modeles/m_recherche.php');
+	// pour getArticlesInStates
+	include(dirname(__FILE__).'/../modeles/m_articles.php');
+
 	// modèle
 	include(dirname(__FILE__).'/../modeles/m_assoc_rub_article.php');
 	// afin d'etre sur que la personne cherchant à accèder à la page
@@ -12,7 +15,9 @@
 		{
 			$rubriques[]=$result['nom'];
 		}
-		$recupArt=getAllArticles($connexion);
+		// on récupère les article valide ou publié
+		$states_art= "('valide', 'publie')";
+		$recupArt=getArticlesInStates($connexion,$states_art);
 		while($result = pg_fetch_array($recupArt))
 		{
 			$articles[]=$result['titre'];
@@ -56,8 +61,16 @@
 		}
 		if ($bCreerAssoc) // création de la rubrique
 		{
-			associer($connexion,$_POST['article'],$_POST['rubriques']);
-			$message="association crée avec succés.";
+			$result=associer($connexion,$_POST['article'],$_POST['rubriques']);
+			if ($result)
+			{
+				$message="association crée avec succés.";
+			}
+			else
+			{
+				$erreur="Erreur lors de la création de l' association,
+				veuiller contacter l'administrateur.";
+			}
 		}
 		include(dirname(__FILE__).'/../vues/v_assoc_rub_article.php');
 	}
