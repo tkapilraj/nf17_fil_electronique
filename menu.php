@@ -26,8 +26,8 @@
                     }
                     if (isEditeur($_SESSION)){
                 ?>
-                    <li><a href="#">Consulter les articles soumis</a></li>
-                    <li><a href="#">Changer l'état des articles</a></li>
+                    <li><a href="index.php?action=consulter_article_soumis">Consulter les articles soumis</a></li>
+                    <li><a href="index.php?action=change_etat_article">Changer l'état des articles</a></li>
                     <li><a href="#">Indexer des articles</a></li>
                     <li><a href="index.php?action=ed_modifier_article">Modifier un article</a></li>
                     <li><a href="index.php?action=assoc_rub_article">Classifier des articles</a></li>
