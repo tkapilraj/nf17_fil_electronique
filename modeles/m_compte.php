@@ -24,34 +24,44 @@
 		$statuts=array())
 	{
 		// on protège les entrées
-		$pseudo = pg_escape_string($pseudo);
+		$pseudo_esc = pg_escape_string($pseudo);
 		$nom    = pg_escape_string($nom);
 		$prenom = pg_escape_string($prenom);
 		$date_naissance=pg_escape_string($date_naissance);
 		// requête
 		$requete ="begin;\n";
 		$requete .= "INSERT INTO comptes (pseudo,nom,prenom,date_naissance)
-		VALUES ('$pseudo','$nom','$prenom','$date_naissance');\n";
-		foreach($statuts as $s)
-		{
-			$requete .= addStatutStr($connexion,$pseudo,$s);
-		}
-		$requete .="commit;\n";
+		VALUES ('$pseudo_esc','$nom','$prenom','$date_naissance');\n";
 		$query=pg_query($connexion, $requete);
-		return $query != false;
-	}
-	// création et retour de la requête sql d'ajout
-	// de status à un utilisateur sous forme de string.
-	// le pseudo doit être préalablement echappé.
-	//* TODO : Support du status editeur
 
-	function addStatutStr($connexion,$pseudo,$statut)
+		if($query){
+			foreach($statuts as $s)
+			{
+				$query = addStatut($connexion,$pseudo,$s);
+				if(! $query){
+					break;
+				}
+			}
+		}
+
+		if ($query){
+			$requete ="commit;\n";
+
+		} else {
+			$requete ="rollback;\n";
+		}
+		pg_query($connexion, $requete);
+		return $query;
+	}
+	// Ajoute un status
+	//* TODO : Support du status editeur
+	function addStatut($connexion,$pseudo,$statut)
 	{
-		$str="";
+		$pseudo = pg_escape_string($pseudo);
 		$allStatuts = getAllStatuts($connexion);
 		if ( ! in_array($statut,$allStatuts))
 		{
-			$str.="rollback;\n";
+			$query=false;
 		}
 		elseif ($statut == "editeur"){
 			//
@@ -59,28 +69,16 @@
 			// $pseudo = pg_escape_string($pseudo);
 			// $statut = '"'.$statut.'"';
 			// requête
-			$str.="rollback;\n"; // désactivée pour le moment
+			$query=false; // désactivée pour le moment
 		}
 		else{
 			// on protège les entrées
 			$statut = '"'.$statut.'"'; // protèqe l' identifiant de table
 			// requête
-			$str .= "INSERT INTO $statut (pseudo)
+			$requete= "INSERT INTO $statut (pseudo)
 			VALUES ('$pseudo');\n";
+			$query=pg_query($connexion, $requete);
 		}
-		return $str;
-	}
-	/* Ajoute un status
-	 * retourne un booleen selon si l'action s'est bien réalisé
-	 * ou non.
-	 */
-	function addStatut($connexion,$pseudo,$statut)
-	{
-		$pseudo   = pg_escape_string($pseudo);
-		$requete  ="begin;\n";
-		$requete .= addStatutStr($connexion,$pseudo,$statut);
-		$requete .="commit;\n";
-		$query    = pg_query($connexion, $requete);
-		return $query != false;
+		return $query;
 	}
 ?>
