@@ -7,27 +7,36 @@ function creer_index($connexion,$titre,$mot){
   $transaction = true;
   $insertion = creer_index_article($connexion,$titre,$date);
   if($insertion){
-    $j=5;
     for($i=1;$i<6;$i++){
-      if(!verifyMot($connexion,$mot[$i])){
-        if($mot[$i] !== ''){
-          creer_motcle($connexion,$mot[$i]);
-          if(!ajout_motcle_indexation($connexion,$date,$mot[$i])){
-            $transaction = false;
-          }
-        }else {
-          $j--;
-        }
-      }else {
-        if(!ajout_motcle_indexation($connexion,$date,$mot[$i])){
-            $transaction = false;
-        }
-      }
-    }
+		  if($mot[$i] !== ''){
+		    $duplicate = false;
+		    for($j=1;$j<$i+1;$j++){
+		      if($mot[$i]==$mot[$j]){
+		        $duplicate = true;
+		      }
+		    }
+		    if(!$duplicate){
+		      if(!verifyMot($connexion,$mot[$i])){
+		        creer_motcle($connexion,$mot[$i]);
+		        if(!ajout_motcle_indexation($connexion,$date,$mot[$i])){
+		          $transaction = false;
+		        }
+		      }else {
+		        if(!ajout_motcle_indexation($connexion,$date,$mot[$i])){
+		        $transaction = false;
+		        }
+		      }
+		    }else {
+		        $n--;
+		    }
+		  }else {
+		        $n--;
+		  }
+		}
   }else {
     $transaction = false;
   }
-  if($transaction&&$j>0){
+  if($transaction&&$n>0){
     pg_query("COMMIT");
     return true;
   }else {
