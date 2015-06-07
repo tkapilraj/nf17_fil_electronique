@@ -6,6 +6,13 @@ if (! empty($erreur)){
 if (! empty($message)){
 	print "<h3 class=\"message\">$message</h3>";
 }
+if (empty($articles)){
+	print "<h3 class=\"message\">Pas d'articles à associer à des rubriques.</h3>";
+}
+elseif(empty($rubriques)){
+	print "<h3 class=\"message\">Pas de rubriques à associable à un article.</h3>";
+}
+else{
 ?>
 <form method="post" action="index.php">
 	Ici vous pouvez associé des articles à des rubriques.
@@ -50,3 +57,6 @@ if (! empty($message)){
 		</tr>
 	</table>
 </form>
+<?php
+}
+?>
