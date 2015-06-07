@@ -1,4 +1,4 @@
-<h2>S'inscrire</h2>
+<h2>Ajout de rubriques</h2>
 <?php
 if (! empty($erreur)){
 	print "<h3 class=\"erreur\">$erreur</h3>";

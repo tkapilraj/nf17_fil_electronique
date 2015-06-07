@@ -1,4 +1,4 @@
-<h2>S'inscrire</h2>
+<h2>Association Article-Rubriques</h2>
 <?php
 if (! empty($erreur)){
 	print "<h3 class=\"erreur\">$erreur</h3>";
@@ -42,11 +42,15 @@ else{
 			<td>
 				<select name="rubriques[]" multiple >
 					<?php
+						$selected=true;
 						foreach ($rubriques as $rubrique)
 						{
-							print "<option value=\"$rubrique\">
-							$rubrique
-							</option>";
+							print "<option value=\"$rubrique\"";
+							if ($selected){
+								print " selected ";
+								$selected=false;
+							}
+							print ">".$rubrique."</option>";
 						}
 					?>
 				</select>
