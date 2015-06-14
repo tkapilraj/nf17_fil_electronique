@@ -4,13 +4,15 @@
     echo "<br><h2> Résultats de la recherche : </h2>";
 
 
-
-    echo "<i>mot-clé : $motcle</i><br>";
-    echo "<i>rubrique : $rubrique</i><br>";
+    echo "<ul>";
+    echo "<li><i>mot-clé : $motcle</i></li>";
+    echo "<li><i>rubrique : $rubrique</i></li>";
 
 
     if($nb<=0)
         echo "<h5><br>Aucun résultat</h5>";
     else{
-        echo "<br><br><i>$nb résultat(s)</i>";
+        echo "<li>$nb résultat(s)</li>";
     }
+
+    echo "</ul>";
