@@ -50,7 +50,7 @@
                       SELECT titre as titre, (array_agg(contenu_txt))[1] as texte
                       FROM (SELECT a.article as titre
                           FROM association a, assoc_appartient_rub r
-                          WHERE rubrique='$rubr' AND a._date=r._date) as req LEFT JOIN text
+                          WHERE rubrique='$rubr' AND a._date=r._date) as req INNER JOIN text
                           ON titre=titreArticle AND req.titre IN (
                                 SELECT A.titre AS titre
                                 FROM mot_cle C, indexation I, mc_appartient_index M,article A, art_faipartie_indexation P
@@ -71,7 +71,7 @@
 
                         SELECT m.titre
                         FROM MostRecentState m, text t
-                        WHERE m.rowNumber = 1 AND etat='publie' AND m.titre=t.titreArticle
+                        WHERE m.rowNumber = 1 AND m.etat='publie' AND m.titre=t.titreArticle
                         GROUP BY m.titre
                       )
 
