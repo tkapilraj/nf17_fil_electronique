@@ -36,7 +36,7 @@
       echo "<input type = 'radio' name='etat' value='publie' id='publie'/><label for='publie'>Publié</label></br>";
       echo "<input type = 'radio' name='etat' value='a_reviser' id='a_reviser'/><label for='a_reviser'>à Reviser</label></br>";
       echo "<input type = 'hidden' name='change_etat' id='change_etat' value='$titre'/>";
-      echo "explication<input type = 'textbox' name='explication' id='explication'/>";
+      echo "*explication<input type = 'textbox' name='explication' id='explication' required/>";
       echo "<input type = 'submit' value = 'envoyer'/>";
       echo "</p>";
       echo "</form>";
