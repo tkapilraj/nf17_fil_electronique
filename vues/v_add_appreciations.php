@@ -15,7 +15,7 @@
 		</p>
 		<p>
 			<label for="texte">Texte</label></br>
-			<textarea name="texte" id="texte" rows=10 COLS=40></textarea>
+			<textarea name="texte" id="texte" rows=10 COLS=40 required></textarea>
 		</p>
 	</fieldset>
 
