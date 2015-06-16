@@ -18,7 +18,7 @@
 				$result1 = getArticleImages($connexion, $titreArticle);
 				$result2 = getArticleTextes($connexion, $titreArticle);	
 			}
-			include(dirname(__FILE__).'/../vues/v_consulter_article.php');
+			include(dirname(__FILE__).'/../vues/v_consulter_article_soumis.php');
 		}
 		else{
 			// redirection vers l'index
