@@ -2,7 +2,7 @@
 	if(empty($messageReussite)){
 		if(!empty($editeur) || $fonction ==  'modifier'){
 			$action = "index.php?action=modifier_article";
-			$fonction ==  'modifier';
+			$fonction =  'modifier';
 		}
 		elseif ($fonction == 'soumettre') {
 			$action = "index.php?action=soumettre_article";

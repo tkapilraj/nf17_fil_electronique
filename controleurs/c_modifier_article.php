@@ -8,15 +8,17 @@
 				// l'utilisateur n'a pas encore fait son choix
 				include(dirname(__FILE__).'/../vues/v_modifier_article.php');
 			}
-			else{				
+			else{		
+				// echo "modifier_bloc_texte";// ->test
+				// ini_set('display_errors', TRUE); // -> test
+				// error_reporting(-1);//  -> test	
+
 				// l'utilisateur vient d'effectuer son choix d'action				
 				$choix = $_POST["choix"];
 				$result  = 0;
 				switch($choix){
 					case 'modifier_bloc_texte' :
-						// echo "modifier_bloc_texte";// ->test
-						// ini_set('display_errors', TRUE); // -> test
-						// error_reporting(-1);//  -> test
+
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
 						if(empty($_POST['titre_bloc_texte'])){
 							// on doit afficher une liste afin que l'utilisateur puisse choisir le bloc qu'il souhaite modifier 
@@ -49,10 +51,7 @@
 						include(dirname(__FILE__).'/../vues/v_modifier_bloc_texte.php');
 						break;
 					case 'modifier_bloc_image' :
-						// ini_set('display_errors', TRUE); // -> test
-						// error_reporting(-1);//  -> test
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
-						// echo "modifier_bloc_image";// -> test
 						if(empty($_POST['titre_bloc_image'])){
 							// on doit afficher une liste afin que l'utilisateur puisse choisir le bloc qu'il souhaite modifier 
 							$listeBlocsImages = recupererBlocsArticleImage($connexion,$titreArticle);
@@ -89,7 +88,6 @@
 						break;
 					case 'supprimer_bloc' :
 						include(dirname(__FILE__).'/../modeles/m_modifier_article.php');
-						// echo "supprimer_bloc"; // -> test
 						if(empty($_POST['titre_bloc'])){
 							$result1 = recupererBlocsArticleTexte($connexion,$titreArticle);
 							$result2 = recupererBlocsArticleImage($connexion,$titreArticle);
