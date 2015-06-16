@@ -145,6 +145,13 @@ function getIndexDetail($connexion, $titre){
     END AS categorie
     FROM Article a LEFT JOIN art_faipartie_indexation i
     ON a.titre = i.article
+    WHERE a.titre IN (
+      with etats as
+      (
+      SELECT a.titre article, c.etat etat, ROW_NUMBER() over(partition by c.article order by c._date desc) id
+      FROM changement_etat_art_ed c RIGHT OUTER JOIN article a ON c.article = a.titre
+      ) select article from etats where id=1 AND etat = 'valide'
+    )
     GROUP BY a.titre
     ORDER BY a.titre";
     
@@ -155,7 +162,14 @@ function getIndexDetail($connexion, $titre){
   function getListArticle($connexion) {
     $pseudo = pg_escape_string($_SESSION['pseudo']);
     $requete = "SELECT DISTINCT titre
-    FROM Article";
+    FROM Article
+    WHERE a.titre IN (
+      with etats as
+      (
+      SELECT a.titre article, c.etat etat, ROW_NUMBER() over(partition by c.article order by c._date desc) id
+      FROM changement_etat_art_ed c RIGHT OUTER JOIN article a ON c.article = a.titre
+      ) select article from etats where id=1 AND etat = 'valide'
+    )";
     return pg_query($connexion,$requete);
   }
 ?>
