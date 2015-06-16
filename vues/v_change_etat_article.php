@@ -11,7 +11,7 @@
 				else{
 					echo "<input type = 'radio' name ='titre' value ='".$res['article']."' id ='".$res['article']."'/>";
 				}
-				echo "<label for ='".$res['article']."'>".$res['article']."</label>  ".$res['etat']."<br/>";
+				echo "<label for ='".$res['article']."'>".$res['article']."</label>  ( état :".$res['etat']." )<br/>";
 				$i++;
 		}	
 		echo "<input type ='submit' value = 'envoyer'>";
