@@ -49,10 +49,10 @@
 				echo "<input type='hidden' name='contenu_bloc_texte' value ='$contenuBlocTexte'>";
 				echo "<p>";
 				echo "<label for='new_titre_bloc_texte'>Titre du bloc</label>";
-				echo "<input type='text' name='new_titre_bloc_texte'  id='new_titre_bloc_texte' value ='$titreBlocTexte' required autofocus>";
+				echo "<input type='text' name='new_titre_bloc_texte' id='new_titre_bloc_texte' maxlength='50' value ='$titreBlocTexte' required autofocus>";
 				echo "<br/>";
 		       	echo "<label for='contenu_bloc_texte'>Contenu du bloc</label><br />";
-		        echo "<textarea name='new_contenu_bloc_texte' id='new_contenu_bloc_texte' rows='10' cols='50' required>$contenuBlocTexte</textarea>";
+		        echo "<textarea name='new_contenu_bloc_texte' id='new_contenu_bloc_texte' maxlength='1000' rows='10' cols='50' required>$contenuBlocTexte</textarea>";
 ?>
 				<br/>
 				<input type = "submit" value="envoyer">

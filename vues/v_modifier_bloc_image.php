@@ -47,7 +47,7 @@
 				echo "<input type='hidden' name='titre_bloc_image' value ='$titreBlocImage'>";
 				echo "<p>";
 				echo "<label for='new_titre_bloc_image'>Titre du bloc</label>";
-				echo "<input type='text' name='new_titre_bloc_image'  id='new_titre_bloc_image' value ='$titreBlocImage' required autofocus>";
+				echo "<input type='text' name='new_titre_bloc_image' maxlength='50' id='new_titre_bloc_image' value ='$titreBlocImage' required autofocus>";
 				echo "<br/>";
 				// $cheminFichier = dirname(__FILE__).'/../images_articles/'.$res['contenu_img'];
 				$cheminFichier = 'images_articles/'.$res['contenu_img'];

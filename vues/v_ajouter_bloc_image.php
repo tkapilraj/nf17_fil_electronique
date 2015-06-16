@@ -13,7 +13,7 @@
 			echo "<input type='hidden' name='choix' value ='$choix'>";
 		?>		
 		<label for="titre_bloc_image">Titre du bloc</label>
-		<input type="text" name="titre_bloc_image"  id="titre_bloc_image" placeholder='ex : mon titre' required autofocus>
+		<input type="text" name="titre_bloc_image" maxlength="50" id="titre_bloc_image" placeholder='ex : mon titre' required autofocus>
 		<br/>
 		<input type="hidden" name="MAX_FILE_SIZE" value="10485760" /> 
 		<!--on n'autorise pas l'utilisateur d'uploader plus de 10 mo-->

@@ -12,7 +12,7 @@
 				Titre d'article :
 			</label>
 				<?php
-					echo "<input type='text' maxlength='64' id ='titre' name='titre' placeholder='$message' required autofocus/>";
+					echo "<input type='text' maxlength='50' id ='titre' name='titre' placeholder='$message' required autofocus/>";
 				?>
 			<br/>
 			<input type = "submit" value = "envoyer"/> <input type = "reset" value = "effacer"/>
