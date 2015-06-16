@@ -20,6 +20,7 @@
 			  }else{
         
         $result2 = getArticlesEtat($connexion, $pseudo);
+        $result3 = getArticleSoumis($connexion,$pseudo);
 			  }
 		  }
       include(dirname(__FILE__).'/../vues/v_change_etat_article.php');
