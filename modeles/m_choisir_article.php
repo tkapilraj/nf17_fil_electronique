@@ -1,4 +1,5 @@
 <?php
+
 	// fonction retournant la liste des articles restaurables
 	function recupArticleRestaurables($connexion){
 		// on protège les entrées
@@ -20,6 +21,7 @@ WHERE R1.date = R2._date
 		$query = pg_query($connexion, $requete);
 		return $query;
 	}
+
 	// fonction retournant la liste des articles retouchables
 	function recupArticlesRetouchables($connexion){
 		// on protège les entrées
@@ -27,7 +29,6 @@ WHERE R1.date = R2._date
 		// requête
 		$requete =
 "(
-
 	SELECT R6.article FROM
 	(
 		SELECT MAX(_date) AS date, article, redacteur
@@ -114,7 +115,6 @@ UNION
 	AND SR4._date = R8._date
 	AND R8.etat = 'a_reviser'
 );";
-	// echo "$requete"; -> test
 	$query = pg_query($connexion,$requete);
 	return $query;
 	}
@@ -123,10 +123,119 @@ UNION
 	function recupArticlesSupprimables($connexion){
 		return recupArticlesRetouchables($connexion);
 	}
+
 	// fonction retournant la liste des articles soumettables
 	function recupArticlesSoumettables($connexion){
-		return recupArticlesRetouchables($connexion);
+		// on protège les entrées
+		$pseudo = pg_escape_string($_SESSION['pseudo']);
+		// requête
+		$requete =
+"SELECT SR6.article 
+FROM
+(
+	(
+		SELECT R6.article FROM 
+		(
+			SELECT MAX(_date) AS date, article, redacteur
+			FROM changement_etat_art_red
+			WHERE redacteur = '$pseudo'
+			GROUP BY article, redacteur
+		) R5, changement_etat_art_red R6
+		WHERE R5.date = R6._date 
+			AND R5.article = R6.article
+			AND R5.redacteur = R6.redacteur
+			AND R6.etat = 'en_redaction'		
+		EXCEPT 
+		SELECT  A.article AS article
+		FROM art_appartient_soum A
+		WHERE A.article IN
+		(
+			SELECT R2.article FROM 
+			(
+				SELECT MAX(_date) AS date, article, redacteur 
+				FROM changement_etat_art_red
+				WHERE redacteur = '$pseudo'
+				GROUP BY article, redacteur
+			) R1, changement_etat_art_red R2
+			WHERE R1.date = R2._date 
+				AND R1.article = R2.article
+				AND R1.redacteur = R2.redacteur
+				AND R2.etat = 'en_redaction'
+		)
+	)
+	UNION
+	(
+		SELECT SR4.article
+		FROM
+		(
+			SELECT R7.article AS article, MAX(R7._date) AS _date
+			FROM changement_etat_art_ed R7
+			WHERE article IN 
+			(
+				SELECT SR1.article 
+				FROM 
+				(
+					SELECT  A.article AS article, MAX(A.soumis) AS date 
+					FROM art_appartient_soum A
+					WHERE A.article IN
+					(
+						SELECT R2.article FROM
+						(
+							SELECT MAX(_date) AS date, article, redacteur
+							FROM changement_etat_art_red
+							WHERE redacteur = '$pseudo'
+							GROUP BY article, redacteur
+						) R1, changement_etat_art_red R2
+						WHERE R1.date = R2._date 
+							AND R1.article = R2.article
+							AND R1.redacteur = R2.redacteur
+							AND R2.etat = 'en_redaction'
+					)
+					GROUP BY A.article
+				)SR1,
+				(
+					SELECT  C.article AS article, MAX(C._date) AS date 
+					FROM changement_etat_art_ed C
+					WHERE C.article IN 
+					(
+						SELECT R2.article FROM 
+						(
+							SELECT MAX(_date) AS date, article, redacteur
+							FROM changement_etat_art_red
+							WHERE redacteur = '$pseudo'
+							GROUP BY article, redacteur
+						) R1, changement_etat_art_red R2
+						WHERE R1.date = R2._date 
+							AND R1.article = R2.article
+							AND R1.redacteur = R2.redacteur
+							AND R2.etat = 'en_redaction'
+					) 
+					GROUP BY C.article
+				)SR2
+				WHERE SR2.date > SR1.date AND SR2.article = SR1.article
+			)
+			GROUP BY R7.article
+		)SR4, changement_etat_art_ed R8
+		WHERE SR4.article = R8.article 
+		AND SR4._date = R8._date
+		AND R8.etat = 'a_reviser'
+	)
+
+)SR6, 
+(
+	SELECT titreArticle, titreBloc
+	FROM image
+	UNION
+	SELECT titreArticle, titreBloc
+	FROM text
+) SR7
+WHERE SR6.article = SR7.titreArticle
+GROUP BY SR6.article
+HAVING COUNT(SR7.titreBloc)>0;";
+		$query = pg_query($connexion,$requete);
+		return $query;
 	}
+
 	// fonction retournant la liste des articles modifiables
 	function recupArticlesModifiables($connexion){
 		return recupArticlesRetouchables($connexion);

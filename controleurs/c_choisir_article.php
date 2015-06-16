@@ -12,22 +12,18 @@
 				switch($fonction){
 					case 'restaurer' :
 						$result = recupArticleRestaurables($connexion);
-						// echo "restaurer"; ->test
 						$fonction="restaurer";
 						break;
 					case 'supprimer' :
 						$result = recupArticlesSupprimables($connexion);
-						// echo "supprimer"; -> test
 						$fonction="supprimer";
 						break;
 					case 'soumettre' :
 						$result = recupArticlesSoumettables($connexion);
-						// echo "soumettre"; -> test
 						$fonction="soumettre";
 						break;
 					case 'modifier' :
 						$result = recupArticlesModifiables($connexion);
-						// echo "modifier";
 						$fonction="modifier";
 				}	
 				include(dirname(__FILE__).'/../vues/v_choisir_article.php');
