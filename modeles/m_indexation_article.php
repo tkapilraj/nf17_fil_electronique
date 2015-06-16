@@ -6,11 +6,12 @@ function creer_index($connexion,$titre,$mot){
   $date = date($formatPHP);
   $transaction = true;
   $insertion = creer_index_article($connexion,$titre,$date);
+  $n=5;
   if($insertion){
     for($i=1;$i<6;$i++){
 		  if($mot[$i] !== ''){
 		    $duplicate = false;
-		    for($j=1;$j<$i+1;$j++){
+		    for($j=1;$j<$i;$j++){
 		      if($mot[$i]==$mot[$j]){
 		        $duplicate = true;
 		      }
@@ -18,14 +19,14 @@ function creer_index($connexion,$titre,$mot){
 		    if(!$duplicate){
 		      if(!verifyMot($connexion,$mot[$i])){
 		        creer_motcle($connexion,$mot[$i]);
-		        if(!ajout_motcle_indexation($connexion,$date,$mot[$i])){
-		          $transaction = false;
-		        }
-		      }else {
-		        if(!ajout_motcle_indexation($connexion,$date,$mot[$i])){
-		        $transaction = false;
-		        }
 		      }
+          if(!existeIndexMot($connexion,$mot[$i],$titre)){
+            if(!ajout_motcle_indexation($connexion,$date,$mot[$i])){
+		          $transaction = false;
+            }
+          }else {
+            $n--;
+          }
 		    }else {
 		        $n--;
 		    }
@@ -36,6 +37,7 @@ function creer_index($connexion,$titre,$mot){
   }else {
     $transaction = false;
   }
+  //echo "n=".$n;
   if($transaction&&$n>0){
     pg_query("COMMIT");
     return true;
@@ -124,6 +126,22 @@ function getIndexDetail($connexion, $titre){
         }
       }
       
+    }
+    return $existe;
+  }
+  
+  function existeIndexMot($connexion, $motcle, $titre){
+    $existe = false;
+    if($motcle !== ''){
+      $pseudo = pg_escape_string($_SESSION['pseudo']);
+      $requete = "SELECT DISTINCT m.mc mot
+      FROM mc_appartient_index m, art_faipartie_indexation a
+      WHERE m._index = a._index AND m.mc = '$motcle' AND a.article = '$titre'";
+      if($result = pg_fetch_array(pg_query($connexion,$requete))) {
+        if($result['mot'] == $motcle) {
+          $existe = true;
+        }
+      }
     }
     return $existe;
   }
