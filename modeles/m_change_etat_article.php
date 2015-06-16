@@ -24,7 +24,7 @@
   }
   
   //permet de recupérer les articles et leurs derniers etats
-  function getArticlesEtat($connexion) {
+  function getArticlesEtat($connexion,$pseudo) {
     $pseudo = pg_escape_string($_SESSION['pseudo']);
     $requete = "
     with etats as
@@ -34,5 +34,16 @@
     ) select article,etat from etats where id=1";
     $result = pg_query($requete);
     return $result;
+  }
+  
+function getArticleSoumis($connexion,$pseudo){
+    $pseudo   = pg_escape_string($pseudo);
+    $requete  = "SELECT aa.article article, aa.soumis soumis
+    FROM editeur e, Soumission s, art_appartient_soum aa
+    WHERE e.pseudo = '$pseudo' AND e.comite = s.comite_editorial AND s._date = aa.soumis AND aa.article NOT IN (
+    SELECT article FROM changement_etat_art_ed WHERE aa.soumis < _date
+    );";
+    $resultat = pg_query($connexion,$requete);
+    return $resultat;
   }
 ?>
