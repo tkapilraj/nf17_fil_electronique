@@ -13,7 +13,11 @@
 				}
 				echo "<label for ='".$res['article']."'>".$res['article']."</label>  ( état :".$res['etat']." )<br/>";
 				$i++;
-		}	
+		}
+		while($res = pg_fetch_array($result3)){
+      		echo "<input type = 'radio' name ='titre' value ='".$res['article']."' id ='".$res['article']."'/>";
+	 	echo "<label for ='".$res['article']."'>".$res['article']."</label>  ( état : soumis )<br/>";
+	 	}
 		echo "<input type ='submit' value = 'envoyer'>";
 		echo "</p>";
 		echo "</form>";
