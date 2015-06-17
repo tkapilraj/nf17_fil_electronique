@@ -8,7 +8,6 @@
 		$requete = "SELECT article
 		FROM red_concoit_art
 		WHERE redacteur ='$pseudo';";
-		// echo "$requete"; -> test
 		$resultat = pg_query($connexion,$requete);
 		return $resultat;
 	}

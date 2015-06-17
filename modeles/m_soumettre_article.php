@@ -5,7 +5,6 @@
 		$requete = "SELECT C.nom
 		FROM comiteEditorial C
 		ORDER BY C.nom;";
-		// echo "$requete"; -> test
 		$resultat = pg_query($connexion,$requete);
 		return $resultat;
 	}

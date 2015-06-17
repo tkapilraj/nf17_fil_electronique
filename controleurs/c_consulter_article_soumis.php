@@ -12,7 +12,6 @@
 			else{
 				// on doit gérer la volonté de l'utilisateur
 				$titreArticle = $_POST["titre"];
-				// echo "$titreArticle"; -> test
 				include(dirname(__FILE__).'/../modeles/m_articles.php'); 
 				// inclusion du modèle
 				$result1 = getArticleImages($connexion, $titreArticle);

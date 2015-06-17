@@ -17,7 +17,6 @@ WHERE R1.date = R2._date
 	AND R1.article = R2.article
 	AND R1.redacteur = R2.redacteur
 	AND R2.etat = 'supprime';";
-		// echo "$requete"; -> test
 		$query = pg_query($connexion, $requete);
 		return $query;
 	}

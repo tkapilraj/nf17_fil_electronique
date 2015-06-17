@@ -22,8 +22,6 @@
 		$date = date($formatPHP);
 		$nomFichier = $date.'.'.$ext;
 		$nom = dirname(__FILE__).'/../images_articles/'.$nomFichier;
-		echo "$nom <br/>";
-		// $nom = $_SERVER["DOCUMENT_ROOT"] .'/nf17_fil_electronique/images_articles/'.$nomFichier;
 		$resultat = move_uploaded_file($_FILES[$index]['tmp_name'],$nom);
 		if (!$resultat){
 			return "echec de copie de l'image";
@@ -82,14 +80,10 @@
 		$requete1 = "SELECT contenu_img 
 		FROM image
 		WHERE titreArticle = '$titreArticle' AND titreBloc = '$titreBloc';";
-		// echo "$requete1 <br/>"; // -> test
 		$result = pg_query($connexion,$requete1);
 		if(pg_num_rows($result) == 1){
-			// echo "bonjour <br/>";
 			$res = pg_fetch_array ($result);
 			$nomFichier = dirname(__FILE__).'/../images_articles/'.$res['contenu_img'];
-			// $nomFichier = $_SERVER["DOCUMENT_ROOT"] .'/nf17_fil_electronique/images_articles/'.$res['contenu_img'];
-			echo "$nomFichier <br/>"; // -> test
 			// on efface le fichier
 			$bool = unlink($nomFichier);
 			if(!$bool){
@@ -101,7 +95,6 @@
 		}
 		$requete2 = "DELETE FROM image
 		WHERE titreArticle = '$titreArticle' AND titreBloc = '$titreBloc';";
-		// echo "$requete <br/>"; // -> test
 		$result = pg_query($connexion,$requete2);
 		return $result;
 	}

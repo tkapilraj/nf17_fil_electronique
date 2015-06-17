@@ -9,7 +9,6 @@
 				include(dirname(__FILE__).'/../vues/v_modifier_article.php');
 			}
 			else{		
-				// echo "modifier_bloc_texte";// ->test
 				// ini_set('display_errors', TRUE); // -> test
 				// error_reporting(-1);//  -> test	
 

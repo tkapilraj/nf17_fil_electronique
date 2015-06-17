@@ -4,15 +4,6 @@
 
 
 if(!empty($_POST['param'])){
-
-       /* echo "-------------test---------------------<br>";
-    $publie = getArticlesPublies($connexion);
-    while($r = pg_fetch_array($publie))
-        echo $r["titre"].'<br>';
-
-    echo "-------------test---------------------<br>";
-*/
-
     // affichage des resultats de la recherche
 
     $motcle = $_POST['motcle'];
