@@ -29,9 +29,11 @@
     $requete = "
     with etats as
     (
-    SELECT a.titre article, c.etat etat, ROW_NUMBER() over(partition by c.article order by c._date desc) id
-    FROM changement_etat_art_ed c RIGHT OUTER JOIN article a ON c.article = a.titre
-    ) select article,etat from etats where id=1";
+      (SELECT a.titre article, c.etat etat, ROW_NUMBER() over(partition by a.titre order by c._date desc) id
+      FROM changement_etat_art_ed c, article a, soumission s, editeur e, art_appartient_soum aa
+      WHERE c.article = a.titre AND s.comite_editorial = e.comite AND e.pseudo = '$pseudo' AND aa.article = a.titre
+      )
+    ) select article,etat,id from etats WHERE id=1 AND etat <> 'a_reviser' OR etat IS NULL";
     $result = pg_query($requete);
     return $result;
   }
