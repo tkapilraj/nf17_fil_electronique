@@ -17,7 +17,7 @@
     echo "</table>";
     echo "<input type='submit' value='Consulter'/>";
     echo "</form>";
-    echo "<span><a href='index.php?action=indexation_article&fonction=creer_index'>Indexer</a></span></br>";
+    //echo "<span><a href='index.php?action=indexation_article&fonction=creer_index'>Indexer</a></span></br>";
     echo "</p>";
   }else if(!empty($_GET['fonction'])){
     $fonction = $_GET['fonction'];
